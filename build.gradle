@@ -25,7 +25,6 @@ plugins {
 group "org.barronpm"
 version "0.1-alpha"
 javaModule.name = "org.barronpm.sjgf"
-javaModule.allowModuleNamingViolations = true
 sourceCompatibility = 1.9
 
 ext {
