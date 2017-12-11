@@ -15,12 +15,11 @@
  */
 
 module org.barronpm.sjgf {
-    requires slf4j.api;
+    requires transitive org.slf4j;
 
-    requires logback.classic;
     requires org.lwjgl;
     requires org.lwjgl.glfw;
     requires org.lwjgl.openal;
     requires org.lwjgl.opengl;
-    requires org.lwjgl.system.jemalloc;
+    requires org.lwjgl.jemalloc;
 }
