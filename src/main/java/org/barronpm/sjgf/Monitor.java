@@ -14,16 +14,27 @@
  * limitations under the License.
  */
 
-module org.barronpm.sjgf {
-    requires transitive org.slf4j;
+package org.barronpm.sjgf;
 
-    requires org.lwjgl;
-    requires org.lwjgl.glfw;
-    requires org.lwjgl.openal;
-    requires org.lwjgl.opengl;
-    requires org.lwjgl.jemalloc;
+import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
-    exports org.barronpm.sjgf;
-    exports org.barronpm.sjgf.draw;
-    exports org.barronpm.sjgf.exceptions;
+public final class Monitor {
+
+    private final long handle;
+
+    private Monitor(long handle) {
+        this.handle = handle;
+    }
+
+    public long getHandle() {
+        return handle;
+    }
+
+    public int getWidth() {
+        return glfwGetVideoMode(handle).width();
+    }
+
+    public int getHeight() {
+        return glfwGetVideoMode(handle).height();
+    }
 }

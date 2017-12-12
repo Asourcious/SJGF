@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-module org.barronpm.sjgf {
-    requires transitive org.slf4j;
+package org.barronpm.sjgf.backend;
 
-    requires org.lwjgl;
-    requires org.lwjgl.glfw;
-    requires org.lwjgl.openal;
-    requires org.lwjgl.opengl;
-    requires org.lwjgl.jemalloc;
+import org.barronpm.sjgf.GameWindow;
 
-    exports org.barronpm.sjgf;
-    exports org.barronpm.sjgf.draw;
-    exports org.barronpm.sjgf.exceptions;
+public final class Engine {
+    public static GameWindow instance = null;
 }

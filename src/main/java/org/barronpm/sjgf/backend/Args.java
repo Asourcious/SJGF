@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-module org.barronpm.sjgf {
-    requires transitive org.slf4j;
+package org.barronpm.sjgf.backend;
 
-    requires org.lwjgl;
-    requires org.lwjgl.glfw;
-    requires org.lwjgl.openal;
-    requires org.lwjgl.opengl;
-    requires org.lwjgl.jemalloc;
+public final class Args {
 
-    exports org.barronpm.sjgf;
-    exports org.barronpm.sjgf.draw;
-    exports org.barronpm.sjgf.exceptions;
+    private Args() {}
+
+    public static void inRange(int lower, int upper, int arg, String name) {
+        if (lower <= arg && upper > arg)
+            return;
+
+        throw new IndexOutOfBoundsException("Provided" + name + " must be in range [" + lower + ',' + upper + ']');
+    }
+
+    public static void notNull(Object o, String name) {
+        if (o != null)
+            return;
+
+        throw new NullPointerException("Provided " + name + " was null.");
+    }
+
 }

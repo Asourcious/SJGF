@@ -14,16 +14,15 @@
  * limitations under the License.
  */
 
-module org.barronpm.sjgf {
-    requires transitive org.slf4j;
+package org.barronpm.sjgf;
 
-    requires org.lwjgl;
-    requires org.lwjgl.glfw;
-    requires org.lwjgl.openal;
-    requires org.lwjgl.opengl;
-    requires org.lwjgl.jemalloc;
+import org.barronpm.sjgf.draw.Color;
+import org.barronpm.sjgf.draw.Graphics;
 
-    exports org.barronpm.sjgf;
-    exports org.barronpm.sjgf.draw;
-    exports org.barronpm.sjgf.exceptions;
+public interface Game extends Disposable {
+    Color getBackgroundColor();
+
+    void init(GameWindow window);
+    void update(GameWindow window, double delta);
+    void render(GameWindow window, Graphics graphics);
 }
