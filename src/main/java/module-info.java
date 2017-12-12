@@ -26,4 +26,6 @@ module org.barronpm.sjgf {
     exports org.barronpm.sjgf;
     exports org.barronpm.sjgf.draw;
     exports org.barronpm.sjgf.exceptions;
+    exports org.barronpm.sjgf.input;
+    exports org.barronpm.sjgf.math;
 }
