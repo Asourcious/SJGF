@@ -19,5 +19,6 @@ package org.barronpm.sjgf.backend;
 import org.barronpm.sjgf.GameWindow;
 
 public final class Engine {
+    public static long window = -1;
     public static GameWindow instance = null;
 }

@@ -158,6 +158,7 @@ public class GameWindowBuilder {
         if (window == NULL)
             throw new SJGFException("Failed to create window");
 
+        Engine.window = window;
         Engine.instance = new GlGameWindow(game, window, title, monitor, useVsync, state);
         return Engine.instance;
     }
