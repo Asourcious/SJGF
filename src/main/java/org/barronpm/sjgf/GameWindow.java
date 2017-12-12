@@ -19,34 +19,234 @@ package org.barronpm.sjgf;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * A GameWindow represents an OS window and contains an instance of a {@link Game}.
+ *
+ * Only one GameWindow can exist in a program. GameWindow objects have
+ * mutable parameters, such as position, dimensions, and title.
+ *
+ * To create a GameWindow instance, use the {@link GameWindowBuilder} class.
+ *
+ * @author Patrick Barron
+ * @see AutoCloseable
+ * @see Game
+ * @see GameWindowBuilder
+ * @since 1.0
+ */
 public interface GameWindow extends AutoCloseable {
 
+    /**
+     * Logger instance used by implementations of GameWindow
+     *
+     * @see Logger
+     * @since 1.0
+     */
     Logger LOG = LoggerFactory.getLogger(GameWindow.class);
 
+    /**
+     * Returns the x coordinate of the upper-left corner of this window.
+     *
+     * @return The x position of this window, in pixels
+     * @see #setX(int)
+     * @since 1.0
+     */
     int getX();
+
+    /**
+     * Sets the x coordinate of the upper-left corner of this window.
+     *
+     * @param x the new x value, in pixels.
+     * @see #getX()
+     * @since 1.0
+     */
     void setX(int x);
+
+    /**
+     * Returns the y coordinate of the upper-left corner of this window.
+     *
+     * @return The y position of this window, in pixels
+     * @see #setY(int)
+     * @since 1.0
+     */
     int getY();
+
+    /**
+     * Sets the y coordinate of the upper-left corner of this window.
+     *
+     * @param y The new y value, in pixels.
+     * @see #getY()
+     * @since 1.0
+     */
     void setY(int y);
+
+    /**
+     * Returns the width of the client area.
+     *
+     * @return The width of this window, in pixels.
+     * @see #setWidth(int)
+     * @since 1.0
+     */
     int getWidth();
+
+    /**
+     * Sets the width of the client area of this window.
+     *
+     * @param width The new height of this window
+     * @throws IllegalArgumentException if width &lt; 0
+     * @see #getWidth()
+     * @since 1.0
+     */
     void setWidth(int width);
+
+    /**
+     * Returns the height of the client area.
+     *
+     * @return The height of this window, in pixels.
+     * @see #setHeight(int)
+     * @since 1.0
+     */
     int getHeight();
+
+
+    /**
+     * Sets the height of the client area of this window.
+     *
+     * @param height the new height of this window
+     * @see #getHeight()
+     * @since 1.0
+     */
     void setHeight(int height);
+
+
+    /**
+     * Returns the title of this window
+     *
+     * @return The title of this window
+     * @see #setTitle(String)
+     * @since 1.0
+     */
     String getTitle();
+
+    /**
+     * Specifies the title of this window.
+     *
+     * @param title the new title
+     * @see #getTitle()
+     * @since 1.0
+     */
     void setTitle(String title);
+
+    /**
+     * Returns whether or not this window is using VSync.
+     * VSync synchronizes the refresh rate of this window with that of the monitor,
+     * preventing "screen tearing," or when the monitor updates in the middle of a frame
+     * refresh, causing some of the screen to be displaying one frame and other parts of
+     * the screen displaying a different frame.
+     *
+     * @return whether this window is currently using VSync
+     * @see #setUseVsync(boolean)
+     * @since 1.0
+     */
     boolean isUsingVsync();
+
+    /**
+     * Sets whether or not this window should utilize VSync.
+     * VSync synchronizes the refresh rate of this window with that of the monitor,
+     * preventing "screen tearing," or when the monitor updates in the middle of a frame
+     * refresh, causing some of the screen to be displaying one frame and other parts of
+     * the screen displaying a different frame.
+     *
+     * @param useVsync whether or not this window should utilize VSync
+     * @see #isUsingVsync()
+     * @since 1.0
+     */
     void setUseVsync(boolean useVsync);
+
+    /**
+     * Returns the monitor that this window is displayed on. This is only applicable when the
+     * {@link WindowState} is set to {@link WindowState#FULLSCREEN}
+     * 
+     * @return The monitor that this window renders to.
+     * @see #setMonitor(Monitor)
+     * @see #getState()
+     * @see #setState(WindowState)
+     * @see WindowState
+     * @since 1.0
+     */
     Monitor getMonitor();
+
+    /**
+     * Returns the monitor that this window is displayed on. This is only applicable when the
+     * {@link WindowState} is set to {@link WindowState#FULLSCREEN}
+     * 
+     * @param monitor the monitor to be displayed on
+     * @see #getMonitor()
+     * @see #getState()
+     * @see #setState(WindowState)
+     * @see WindowState
+     * @since 1.0
+     */
     void setMonitor(Monitor monitor);
+
+    /**
+     * Returns the current window state.
+     *
+     * @return the current state of this window
+     * @see #setState(WindowState)
+     * @see WindowState
+     * @since 1.0
+     */
     WindowState getState();
+
+    /**
+     * Sets this window's state.
+     *
+     * @param state the new state of this window
+     * @see #getState()
+     * @see WindowState
+     * @since 1.0
+     */
     void setState(WindowState state);
 
+    /**
+     * Returns whether the window can be resized by the user
+     *
+     * @return whether the window can be resized by the user
+     * @since 1.0
+     */
     boolean isResizable();
+
+    /**
+     * Returns whether the window is visible to the user.
+     *
+     * @return whether the window is currently visible
+     * @since 1.0
+     */
     boolean isVisible();
 
+    /**
+     * Returns the game instance associated with this window.
+     *
+     * @return the game instance associated with this window
+     * @since 1.0
+     */
     Game getGame();
 
+    /**
+     * Starts this window's game. This method initializes OpenGL and starts this
+     * window's game.
+     *
+     * @see #close()
+     * @since 1.0
+     */
     void start();
 
+    /**
+     * Closes the window and cleanly exits the game
+     *
+     * @see #start()
+     * @since 1.0
+     */
     @Override
     void close();
 }
