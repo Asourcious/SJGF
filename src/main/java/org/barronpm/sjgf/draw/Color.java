@@ -16,6 +16,14 @@
 
 package org.barronpm.sjgf.draw;
 
+/**
+ * Represents a color in the sRGB color space.
+ *
+ * @author Patrick Barron
+ * @see Graphics
+ * @see Texture
+ * @since 1.0
+ */
 public final class Color {
 
     /**
