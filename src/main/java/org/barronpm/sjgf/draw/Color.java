@@ -18,18 +18,95 @@ package org.barronpm.sjgf.draw;
 
 public final class Color {
 
+    /**
+     * The color black.
+     *
+     * @since 1.0
+     */
     public static final Color BLACK = new Color(0, 0, 0);
+
+    /**
+     * The color dark gray.
+     *
+     * @since 1.0
+     */
     public static final Color DARK_GRAY = new Color(.25f, .25f, .25f);
+
+    /**
+     * The color gray
+     *
+     * @since 1.0
+     */
     public static final Color GRAY = new Color(.5f, .5f, .5f);
+
+    /**
+     * The color dark gray
+     *
+     * @since 1.0
+     */
     public static final Color LIGHT_GRAY = new Color(.75f, .75f, .75f);
+
+    /**
+     * The color white
+     *
+     * @since 1.0
+     */
     public static final Color WHITE = new Color(1, 1, 1);
+
+    /**
+     * The color blue
+     *
+     * @since 1.0
+     */
     public static final Color BLUE = new Color(0, 0, 1);
+
+    /**
+     * The color cyan
+     *
+     * @since 1.0
+     */
     public static final Color CYAN = new Color(0, 1, 1);
+
+    /**
+     * The color green
+     *
+     * @since 1.0
+     */
     public static final Color GREEN = new Color(0, 1, 0);
+
+    /**
+     * The color yellow
+     *
+     * @since 1.0
+     */
     public static final Color YELLOW = new Color(1, 1, 0);
+
+    /**
+     * The color orange
+     *
+     * @since 1.0
+     */
     public static final Color ORANGE = new Color(1, .5f, 0);
+
+    /**
+     * The color red
+     *
+     * @since 1.0
+     */
     public static final Color RED = new Color(1, 0, 0);
+
+    /**
+     * The color magenta
+     *
+     * @since 1.0
+     */
     public static final Color MAGENTA = new Color(1, 0, 1);
+
+    /**
+     * The color pink
+     *
+     * @since 1.0
+     */
     public static final Color PINK = new Color(1, .5f, .9f);
 
     private final float r;
@@ -37,10 +114,30 @@ public final class Color {
     private final float b;
     private final float a;
 
+    /**
+     * Creates a color with the specified red, green, and blue components in the range (0-1).
+     * Alpha defaults to 1.
+     *
+     * @param r The red component
+     * @param g The green component
+     * @param b The blue component
+     * @throws IllegalArgumentException if r, g, or b are outside of the range 0 to 1 inclusive
+     * @since 1.0
+     */
     public Color(float r, float g, float b) {
         this(r, g, b, 1);
     }
 
+    /**
+     * Creates a color with the specified red, green, blue, and alpha components in the range (0-1).
+     *
+     * @param r The red component
+     * @param g The green component
+     * @param b The blue component
+     * @param a The alpha component
+     * @throws IllegalArgumentException if r, g, or b are outside of the range 0 to 1 inclusive
+     * @since 1.0
+     */
     public Color(float r, float g, float b, float a) {
         this.r = r;
         this.g = g;
@@ -48,27 +145,67 @@ public final class Color {
         this.a = a;
     }
 
+    /**
+     * Returns the red component, from 0 to 1
+     *
+     * @return the red component
+     * @since 1.0
+     */
     public float getRed() {
         return r;
     }
 
+    /**
+     * Returns the green component, from 0 to 1
+     *
+     * @return the green component
+     * @since 1.0
+     */
     public float getGreen() {
         return g;
     }
 
+    /**
+     * Returns the blue component, from 0 to 1
+     *
+     * @return the blue component
+     * @since 1.0
+     */
     public float getBlue() {
         return b;
     }
 
+    /**
+     * Returns the alpha component, from 0 to 1
+     *
+     * @return the alpha component
+     * @since 1.0
+     */
     public float getAlpha() {
         return a;
     }
 
+    /**
+     * Returns a string representation of this object. This value is intended for debugging purposes
+     * and may change from release to release.
+     *
+     * @return a string representation of this object
+     * @since 1.0
+     */
     @Override
     public String toString() {
         return getClass().getName() +"[r=" + r + ",g=" + g + ",b=" + b + ",a=" + a + "]";
     }
 
+    /**
+     * Returns whether or not this object is equal to another object.
+     * This returns true if and only if o is not null and the red, green, blue, and alpha
+     * components are equal
+     *
+     * @param o the object to be compared to
+     * @return true if the other color is equal to this, false otherwise
+     * @since 1.0
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,6 +219,12 @@ public final class Color {
                 && Float.compare(color.a, a) == 0;
     }
 
+    /**
+     * Computes the hash code for this Color
+     *
+     * @return the hash code value of this Color
+     * @since 1.0
+     */
     @Override
     public int hashCode() {
         int result = (r != +0.0f ? Float.floatToIntBits(r) : 0);
