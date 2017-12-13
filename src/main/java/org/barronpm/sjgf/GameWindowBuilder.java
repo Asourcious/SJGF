@@ -23,7 +23,7 @@ import org.barronpm.sjgf.exceptions.SJGFException;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class GameWindowBuilder {
+public final class GameWindowBuilder {
 
     private final Game game;
 
