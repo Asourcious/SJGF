@@ -20,8 +20,10 @@ import org.barronpm.sjgf.backend.Args;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWGamepadState;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -45,6 +47,18 @@ public final class Controller {
 
     public static Controller getController(int slot) {
         return controllers[slot];
+    }
+
+    public static Set<Controller> getConnectedControllers() {
+        return Arrays.stream(controllers)
+                .filter(Controller::isConnected)
+                .collect(Collectors.toSet());
+    }
+
+    public static Set<Controller> getSupportedControllers() {
+        return Arrays.stream(controllers)
+                .filter(Controller::isSupported)
+                .collect(Collectors.toSet());
     }
 
     public boolean isConnected() {
