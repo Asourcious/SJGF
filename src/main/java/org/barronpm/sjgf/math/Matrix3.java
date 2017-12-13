@@ -18,7 +18,7 @@ package org.barronpm.sjgf.math;
 
 import java.util.Arrays;
 
-public class Matrix3 {
+public final class Matrix3 {
 
     private final float[][] values = new float[3][3];
 
