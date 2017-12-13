@@ -75,8 +75,8 @@ public final class GlGameWindow implements GameWindow {
     }
 
     @Override
-    public void close() {
-        game.close();
+    public void dispose() {
+        game.dispose();
         glfwWindowShouldClose(window);
     }
 

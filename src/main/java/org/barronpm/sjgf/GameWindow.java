@@ -28,12 +28,12 @@ import org.slf4j.LoggerFactory;
  * To create a GameWindow instance, use the {@link GameWindowBuilder} class.
  *
  * @author Patrick Barron
- * @see AutoCloseable
+ * @see Disposable
  * @see Game
  * @see GameWindowBuilder
  * @since 1.0
  */
-public interface GameWindow extends AutoCloseable {
+public interface GameWindow extends Disposable {
 
     /**
      * Logger instance used by implementations of GameWindow
@@ -236,17 +236,8 @@ public interface GameWindow extends AutoCloseable {
      * Starts this window's game. This method initializes OpenGL and starts this
      * window's game.
      *
-     * @see #close()
+     * @see Disposable#dispose()
      * @since 1.0
      */
     void start();
-
-    /**
-     * Closes the window and cleanly exits the game
-     *
-     * @see #start()
-     * @since 1.0
-     */
-    @Override
-    void close();
 }

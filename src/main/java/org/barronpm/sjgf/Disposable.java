@@ -16,6 +16,18 @@
 
 package org.barronpm.sjgf;
 
+/**
+ * Represents an object that holds resources that must be manually released
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public interface Disposable {
-    void close();
+
+    /**
+     * Releases all resources held by this object
+     *
+     * @since 1.0
+     */
+    void dispose();
 }
