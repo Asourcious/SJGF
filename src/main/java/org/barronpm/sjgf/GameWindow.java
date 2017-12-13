@@ -144,10 +144,10 @@ public interface GameWindow extends Disposable {
      * the screen displaying a different frame.
      *
      * @return whether this window is currently using VSync
-     * @see #setUseVsync(boolean)
+     * @see #setUseVSync(boolean)
      * @since 1.0
      */
-    boolean isUsingVsync();
+    boolean isUsingVSync();
 
     /**
      * Sets whether or not this window should utilize VSync.
@@ -156,11 +156,11 @@ public interface GameWindow extends Disposable {
      * refresh, causing some of the screen to be displaying one frame and other parts of
      * the screen displaying a different frame.
      *
-     * @param useVsync whether or not this window should utilize VSync
-     * @see #isUsingVsync()
+     * @param useVSync whether or not this window should utilize VSync
+     * @see #isUsingVSync()
      * @since 1.0
      */
-    void setUseVsync(boolean useVsync);
+    void setUseVSync(boolean useVSync);
 
     /**
      * Returns the monitor that this window is displayed on. This is only applicable when the

@@ -139,14 +139,14 @@ public final class GlGameWindow implements GameWindow {
     }
 
     @Override
-    public boolean isUsingVsync() {
+    public boolean isUsingVSync() {
         return useVsync;
     }
 
     @Override
-    public void setUseVsync(boolean useVsync) {
-        glfwSwapInterval(useVsync ? 1 : 0);
-        this.useVsync = useVsync;
+    public void setUseVSync(boolean useVSync) {
+        glfwSwapInterval(useVSync ? 1 : 0);
+        this.useVsync = useVSync;
     }
 
     @Override
