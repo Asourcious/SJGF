@@ -34,7 +34,7 @@ public final class GameWindowBuilder {
     private String title = "SJGF";
     private boolean resizable = true;
     private boolean visible = true;
-    private boolean useVsync = true;
+    private boolean useVSync = true;
     private Monitor monitor = null;
     private WindowState state = WindowState.RESTORED;
 
@@ -108,12 +108,12 @@ public final class GameWindowBuilder {
         return this;
     }
 
-    public boolean isUsingVsync() {
-        return useVsync;
+    public boolean isUsingVSync() {
+        return useVSync;
     }
 
-    public GameWindowBuilder setUseVsync(boolean useVsync) {
-        this.useVsync = useVsync;
+    public GameWindowBuilder setUseVSync(boolean useVSync) {
+        this.useVSync = useVSync;
         return this;
     }
 
@@ -159,7 +159,7 @@ public final class GameWindowBuilder {
             throw new SJGFException("Failed to create window");
 
         Engine.window = window;
-        Engine.instance = new GlGameWindow(game, window, title, monitor, useVsync, state);
+        Engine.instance = new GlGameWindow(game, window, title, monitor, useVSync, state);
         return Engine.instance;
     }
 }
