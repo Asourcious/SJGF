@@ -139,6 +139,12 @@ public final class Color {
      * @since 1.0
      */
     public Color(float r, float g, float b, float a) {
+        if(r < 0 || r > 2
+                || g < 0 || g > 1
+                || b < 0 || b > 1
+                || a < 0 || a > 1)
+            throw new IllegalArgumentException("Values must be between 0 and 1!");
+
         this.r = r;
         this.g = g;
         this.b = b;
