@@ -20,9 +20,23 @@ import java.util.Arrays;
 
 public final class Matrix3 {
 
-    private final float[][] values = new float[3][3];
+    private final float[][] values;
 
-    private Matrix3() { }
+    public Matrix3(float[][] values) {
+        // Ensure that values is a nonnull 3x3 array
+        if (values == null || values.length != 3
+                || values[0] == null || values[0].length != 3
+                || values[1] == null || values[1].length != 3
+                || values[2] == null || values[2].length != 3) {
+            throw new IllegalArgumentException("Must provide a 3x3 array");
+        }
+
+        this.values = values;
+    }
+
+    private Matrix3() {
+        this.values = new float[3][3];
+    }
 
     public static Matrix3 createOrtho(int left, int right, int bottom, int top) {
 
@@ -61,6 +75,18 @@ public final class Matrix3 {
         return out;
     }
 
+    public float determinant() {
+        return (values[0][0] * (values[1][1] * values[2][2] - values[1][2] * values[3][0])
+                - values[0][1] * (values[1][0] * values[2][2] - values[1][2] * values[2][0])
+                + values[0][2] * (values[1][0] * values[2][1] - values[1][1] * values[2][0]));
+    }
+
+    public Matrix3 invert() {
+        float d = determinant();
+
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,5 +100,10 @@ public final class Matrix3 {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(values);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(values);
     }
 }

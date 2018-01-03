@@ -20,13 +20,27 @@ import java.util.Arrays;
 
 public final class Matrix4 {
 
-    private final float[][] values = new float[4][4];
+    private final float[][] values;
 
-    private Matrix4() {}
+    public Matrix4(float[][] values) {
+        if (values == null || values.length != 4
+                || values[0] == null || values[0].length != 4
+                || values[1] == null || values[1].length != 4
+                || values[2] == null || values[2].length != 4
+                || values[3] == null || values[3].length != 4) {
+            throw new IllegalArgumentException("Must provide a 4x4 array");
+        }
+
+        this.values = values;
+    }
+
+    private Matrix4() {
+        this.values = new float[4][4];
+    }
 
     public static Matrix4 createOrtho(int left, int right, int bottom, int top) {
-        float f = Integer.MAX_VALUE;
-        float n = 0;
+        float f = 0;
+        float n = Integer.MAX_VALUE;
 
         Matrix4 matrix = new Matrix4();
 
@@ -37,6 +51,17 @@ public final class Matrix4 {
         matrix.values[2][2] = 2f / (f - n);
         matrix.values[2][3] = -(f + n) / (f - n);
         matrix.values[3][3] = 1;
+
+        return matrix;
+    }
+
+    public static Matrix4 createIdentity() {
+        Matrix4 matrix = new Matrix4();
+        float[][] values = matrix.values;
+        values[0][0] = 1;
+        values[1][1] = 1;
+        values[2][2] = 1;
+        values[3][3] = 1;
 
         return matrix;
     }
@@ -73,6 +98,79 @@ public final class Matrix4 {
         return out;
     }
 
+    public float determinant() {
+        return (values[0][0] * values[1][1] - values[1][0] * values[0][1]) * (values[2][2] * values[3][3] - values[3][2] * values[2][3])
+                - (values[0][0] * values[2][1] - values[2][0] * values[0][1]) * (values[1][2] * values[3][3] - values[3][2] * values[1][3])
+                + (values[0][0] * values[3][1] - values[3][0] * values[0][1]) * (values[1][2] * values[2][3] - values[2][2] * values[1][3])
+                + (values[1][0] * values[2][1] - values[2][0] * values[1][1]) * (values[0][2] * values[3][3] - values[3][2] * values[0][3])
+                - (values[1][0] * values[3][1] - values[3][0] * values[1][1]) * (values[0][2] * values[2][3] - values[2][2] * values[0][3])
+                + (values[2][0] * values[3][1] - values[3][0] * values[2][1]) * (values[0][2] * values[1][3] - values[1][2] * values[0][3]);
+    }
+
+    public Matrix4 invert() {
+        float d = determinant();
+        if (d == 0)
+            return Matrix4.createIdentity();
+
+        Matrix4 tmp = new Matrix4();
+
+        d = 1.0f / d;
+
+        tmp.values[0][0] = d * (values[1][1] * (values[2][2] * values[3][3] - values[3][2] * values[2][3])
+                + values[2][1] * (values[3][2] * values[1][3] - values[1][2] * values[3][3])
+                + values[3][1] * (values[1][2] * values[2][3] - values[2][2] * values[1][3]));
+        tmp.values[1][0] = d * (values[1][2] * (values[2][0] * values[3][3] - values[3][0] * values[2][3])
+                + values[2][2] * (values[3][0] * values[1][3] - values[1][0] * values[3][3])
+                + values[3][2] * (values[1][0] * values[2][3] - values[2][0] * values[1][3]));
+        tmp.values[2][0] = d * (values[1][3] * (values[2][0] * values[3][1] - values[3][0] * values[2][1])
+                + values[2][3] * (values[3][0] * values[1][1] - values[1][0] * values[3][1])
+                + values[3][3] * (values[1][0] * values[2][1] - values[2][0] * values[1][1]));
+        tmp.values[3][0] = d * (values[1][0] * (values[3][1] * values[2][2] - values[2][1] * values[3][2])
+                + values[2][0] * (values[1][1] * values[3][2] - values[3][1] * values[1][2])
+                + values[3][0] * (values[2][1] * values[1][2] - values[1][1] * values[2][2]));
+
+        tmp.values[0][1] = d * (values[2][1] * (values[0][2] * values[3][3] - values[3][2] * values[0][3])
+                + values[3][1] * (values[2][2] * values[0][3] - values[0][2] * values[2][3])
+                + values[0][1] * (values[3][2] * values[2][3] - values[2][2] * values[3][3]));
+        tmp.values[1][1] = d * (values[2][2] * (values[0][0] * values[3][3] - values[3][0] * values[0][3])
+                + values[3][2] * (values[2][0] * values[0][3] - values[0][0] * values[2][3])
+                + values[0][2] * (values[3][0] * values[2][3] - values[2][0] * values[3][3]));
+        tmp.values[2][1] = d * (values[2][3] * (values[0][0] * values[3][1] - values[3][0] * values[0][1])
+                + values[3][3] * (values[2][0] * values[0][1] - values[0][0] * values[2][1])
+                + values[0][3] * (values[3][0] * values[2][1] - values[2][0] * values[3][1]));
+        tmp.values[3][1] = d * (values[2][0] * (values[3][1] * values[0][2] - values[0][1] * values[3][2])
+                + values[3][0] * (values[0][1] * values[2][2] - values[2][1] * values[0][2])
+                + values[0][0] * (values[2][1] * values[3][2] - values[3][1] * values[2][2]));
+
+        tmp.values[0][2] = d * (values[3][1] * (values[0][2] * values[1][3] - values[1][2] * values[0][3])
+                + values[0][1] * (values[1][2] * values[3][3] - values[3][2] * values[1][3])
+                + values[1][1] * (values[3][2] * values[0][3] - values[0][2] * values[3][3]));
+        tmp.values[1][2] = d * (values[3][2] * (values[0][0] * values[1][3] - values[1][0] * values[0][3])
+                + values[0][2] * (values[1][0] * values[3][3] - values[3][0] * values[1][3])
+                + values[1][2] * (values[3][0] * values[0][3] - values[0][0] * values[3][3]));
+        tmp.values[2][2] = d * (values[3][3] * (values[0][0] * values[1][1] - values[1][0] * values[0][1])
+                + values[0][3] * (values[1][0] * values[3][1] - values[3][0] * values[1][1])
+                + values[1][3] * (values[3][0] * values[0][1] - values[0][0] * values[3][1]));
+        tmp.values[3][2] = d * (values[3][0] * (values[1][1] * values[0][2] - values[0][1] * values[1][2])
+                + values[0][0] * (values[3][1] * values[1][2] - values[1][1] * values[3][2])
+                + values[1][0] * (values[0][1] * values[3][2] - values[3][1] * values[0][2]));
+
+        tmp.values[0][3] = d * (values[0][1] * (values[2][2] * values[1][3] - values[1][2] * values[2][3])
+                + values[1][1] * (values[0][2] * values[2][3] - values[2][2] * values[0][3])
+                + values[2][1] * (values[1][2] * values[0][3] - values[0][2] * values[1][3]));
+        tmp.values[1][3] = d * (values[0][2] * (values[2][0] * values[1][3] - values[1][0] * values[2][3])
+                + values[1][2] * (values[0][0] * values[2][3] - values[2][0] * values[0][3])
+                + values[2][2] * (values[1][0] * values[0][3] - values[0][0] * values[1][3]));
+        tmp.values[2][3] = d * (values[0][3] * (values[2][0] * values[1][1] - values[1][0] * values[2][1])
+                + values[1][3] * (values[0][0] * values[2][1] - values[2][0] * values[0][1])
+                + values[2][3] * (values[1][0] * values[0][1] - values[0][0] * values[1][1]));
+        tmp.values[3][3] = d * (values[0][0] * (values[1][1] * values[2][2] - values[2][1] * values[1][2])
+                + values[1][0] * (values[2][1] * values[0][2] - values[0][1] * values[2][2])
+                + values[2][0] * (values[0][1] * values[1][2] - values[1][1] * values[0][2]));
+
+        return tmp;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -86,5 +184,10 @@ public final class Matrix4 {
     @Override
     public int hashCode() {
         return Arrays.deepHashCode(values);
+    }
+
+    @Override
+    public String toString() {
+        return Arrays.deepToString(values);
     }
 }
