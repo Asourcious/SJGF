@@ -26,8 +26,7 @@ public final class Vector2 {
     }
 
     public Vector2(float x, float y) {
-        this.x = x;
-        this.y = y;
+        set(x, y);
     }
 
     public float getX() {
@@ -77,6 +76,10 @@ public final class Vector2 {
         this.y -= other.y;
     }
 
+    public float dotProduct(Vector2 other) {
+        return x * other.x + y * other.y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -93,5 +96,10 @@ public final class Vector2 {
         result = 31 * result + (y != +0.0f ? Float.floatToIntBits(y) : 0);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + "]";
     }
 }

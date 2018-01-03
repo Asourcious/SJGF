@@ -100,6 +100,18 @@ public final class Vector3 {
         this.z /= scalar;
     }
 
+    public Vector3 crossProduct(Vector3 other) {
+        return new Vector3(
+                y * other.z - z * other.y,
+                z * other.x - x * other.z,
+                x * other.y - y * other.x
+        );
+    }
+
+    public float dotProduct(Vector3 other) {
+        return x * other.x + y * other.y + z * other.z;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -119,5 +131,10 @@ public final class Vector3 {
         result = 31 * result + (z != +0.0f ? Float.floatToIntBits(z) : 0);
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "[" + x + ", " + y + ", " + z + "]";
     }
 }
