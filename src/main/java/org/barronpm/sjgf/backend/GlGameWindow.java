@@ -20,6 +20,7 @@ import org.barronpm.sjgf.Game;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.Monitor;
 import org.barronpm.sjgf.WindowState;
+import org.barronpm.sjgf.backend.draw.GlGraphics;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.exceptions.SJGFException;
 import org.lwjgl.BufferUtils;
@@ -56,6 +57,7 @@ public final class GlGameWindow implements GameWindow {
     public void start() {
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+        GlGraphics graphics = new GlGraphics();
 
         double previous = glfwGetTime();
         while (!glfwWindowShouldClose(window)) {
@@ -65,11 +67,16 @@ public final class GlGameWindow implements GameWindow {
 
             glfwPollEvents();
 
+            game.update(this, elapsed);
+
             glViewport(0, 0, getWidth(), getHeight());
             Color color = game.getBackgroundColor();
             glClearColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
             glClear(GL_COLOR_BUFFER_BIT);
 
+            game.render(this, graphics);
+
+            graphics.draw();
             glfwSwapBuffers(window);
         }
     }

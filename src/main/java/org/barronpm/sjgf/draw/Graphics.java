@@ -20,17 +20,17 @@ public interface Graphics {
 
     Color getColor();
     void setColor(Color color);
+    Camera getCamera();
+    void setCamera(Camera camera);
 
-    void drawArc(float x1, float y1, float width, float height, float start, float end);
-    void drawArc(float x1, float y1, float width, float height, float start, float end, int segments);
+    void drawArc(float x, float y, float width, float height, float start, float end);
+    void drawArc(float x, float y, float width, float height, float start, float end, int segments);
     void drawEllipse(float x, float y, float width, float height);
     void drawEllipse(float x, float y, float width, float height, int segments);
     void drawLine(float x1, float y1, float x2, float y2);
     void drawString(String string, float x, float y);
     void drawRect(float x, float y, float width, float height);
     void drawTexture(Texture texture, float x, float y);
-    void fillArc(float x1, float y1, float width, float height, float start, float end);
-    void fillArc(float x1, float y1, float width, float height, float start, float end, int segments);
     void fillEllipse(float x, float y, float width, float height);
     void fillEllipse(float x, float y, float width, float height, int segments);
     void fillRect(float x, float y, float width, float height);
