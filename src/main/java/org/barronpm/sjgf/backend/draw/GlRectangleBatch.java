@@ -34,8 +34,6 @@ import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class GlRectangleBatch {
 
-    private static final int BATCH_SIZE = 10;
-
     private final int vao;
     private final int vertexVbo;
     private final int colorVbo;
