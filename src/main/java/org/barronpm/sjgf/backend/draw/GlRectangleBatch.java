@@ -17,9 +17,13 @@
 package org.barronpm.sjgf.backend.draw;
 
 import org.barronpm.sjgf.draw.Color;
+import org.barronpm.sjgf.math.Vector3;
 import org.lwjgl.BufferUtils;
 
 import java.nio.FloatBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
 import static org.lwjgl.opengl.GL11.glDrawArrays;
@@ -36,8 +40,8 @@ public class GlRectangleBatch {
     private final int vertexVbo;
     private final int colorVbo;
 
-    private final FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(BATCH_SIZE * 2 * 3 * 3);
-    private final FloatBuffer colorBuffer = BufferUtils.createFloatBuffer(BATCH_SIZE * 2 * 3 * 4);
+    private final List<Vector3> vertexList = new ArrayList<>();
+    private final List<Color> colorList = new ArrayList<>();
 
     private int numberOfShapes = 0;
 
@@ -47,46 +51,48 @@ public class GlRectangleBatch {
         this.colorVbo = colorVbo;
     }
 
-    public void add(Color color, float... vertices) {
-        vertexBuffer.put(vertices);
-
-        // Add a color for each vertex, 3 per triangle, 2 triangles per rectangle
-        // TODO: Look into making this more efficient in regards to memory usage
-        for (int i = 0; i < 6; i++) {
-            colorBuffer.put(color.getRed());
-            colorBuffer.put(color.getGreen());
-            colorBuffer.put(color.getBlue());
-            colorBuffer.put(color.getAlpha());
-        }
-
-        numberOfShapes++;
-        if (numberOfShapes == BATCH_SIZE)
-            flush();
+    public void add(Color color, Vector3... vertices) {
+        Collections.addAll(vertexList, vertices);
+        colorList.add(color);
     }
 
     public void flush() {
-        vertexBuffer.flip();
-        colorBuffer.flip();
+        FloatBuffer vertices = BufferUtils.createFloatBuffer(vertexList.size() * 3);
+        vertexList.forEach(vec -> {
+            vertices.put(vec.getX());
+            vertices.put(vec.getY());
+            vertices.put(vec.getZ());
+        });
 
+        FloatBuffer colors = BufferUtils.createFloatBuffer(colorList.size() * 6 * 4);
+        colorList.forEach(col -> {
+            for (int i = 0; i < 6; i++) {
+                colors.put(col.getRed());
+                colors.put(col.getGreen());
+                colors.put(col.getBlue());
+                colors.put(col.getAlpha());
+            }
+        });
+
+        vertices.flip();
+        colors.flip();
         glBindBuffer(GL_ARRAY_BUFFER, vertexVbo);
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, colorVbo);
-        glBufferData(GL_ARRAY_BUFFER, colorBuffer, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        glDrawArrays(GL_TRIANGLES, 0, numberOfShapes * 2 * 3);
+        glDrawArrays(GL_TRIANGLES, 0, vertexList.size());
 
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
 
-        vertexBuffer.flip();
-        colorBuffer.flip();
-        vertexBuffer.clear();
-        colorBuffer.clear();
+        vertexList.clear();
+        colorList.clear();
     }
 }

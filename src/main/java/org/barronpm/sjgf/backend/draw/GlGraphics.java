@@ -22,6 +22,7 @@ import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
 import org.barronpm.sjgf.draw.Texture;
+import org.barronpm.sjgf.math.Vector3;
 
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
@@ -133,12 +134,12 @@ public class GlGraphics implements Graphics, Disposable {
     @Override
     public void fillRect(float x, float y, float width, float height) {
         rectangleBatch.add(color,
-                x, y, 0,
-                x, y + height, 0,
-                x + width, y, 0,
-                x + width, y + height, 0,
-                x + width, y, 0,
-                x, y + height, 0);
+                new Vector3(x, y, 0),
+                new Vector3(x, y + height, 0),
+                new Vector3(x + width, y, 0),
+                new Vector3(x + width, y + height, 0),
+                new Vector3(x + width, y, 0),
+                new Vector3(x, y + height, 0));
     }
 
     public void draw() {
