@@ -79,12 +79,14 @@ public final class GlGameWindow implements GameWindow {
             graphics.draw();
             glfwSwapBuffers(window);
         }
+
+        game.dispose();
+        graphics.dispose();
     }
 
     @Override
-    public void dispose() {
-        game.dispose();
-        glfwWindowShouldClose(window);
+    public void close() {
+        glfwSetWindowShouldClose(window, true);
     }
 
     @Override

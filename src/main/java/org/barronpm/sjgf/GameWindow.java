@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
  * @see GameWindowBuilder
  * @since 1.0
  */
-public interface GameWindow extends Disposable {
+public interface GameWindow {
 
     /**
      * Logger instance used by implementations of GameWindow
@@ -236,8 +236,16 @@ public interface GameWindow extends Disposable {
      * Starts this window's game. This method initializes OpenGL and starts this
      * window's game.
      *
-     * @see Disposable#dispose()
+     * @see #close()
      * @since 1.0
      */
     void start();
+
+    /**
+     * Closes the window and releases all resources held by it.
+     *
+     * @see #start()
+     * @since 1.0
+     */
+    void close();
 }
