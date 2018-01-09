@@ -48,7 +48,7 @@ public final class Color {
     public static final Color GRAY = new Color(.5f, .5f, .5f);
 
     /**
-     * The color dark gray
+     * The color light gray
      *
      * @since 1.0
      */
