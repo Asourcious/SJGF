@@ -18,12 +18,13 @@ package org.barronpm.sjgf.backend.draw;
 
 import org.barronpm.sjgf.Disposable;
 import org.barronpm.sjgf.backend.Args;
+import org.barronpm.sjgf.backend.Engine;
 import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
 import org.barronpm.sjgf.draw.Texture;
-import org.barronpm.sjgf.math.Vector3;
 
+import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
@@ -32,19 +33,24 @@ import static org.lwjgl.opengl.GL30.*;
 public class GlGraphics implements Graphics, Disposable {
 
     private Color color = Color.BLACK;
-    private Camera camera = null;
+    private Camera camera;
 
-    private final Camera defaultCamera = null;
+    private final PixelBasedCamera defaultCamera;
 
     private GlShaderProgram shaderProgram;
 
-    private GlRectangleBatch rectangleBatch;
+    private GlShapeBatch lineBatch;
+    private GlShapeBatch triangleBatch;
 
     private int vao;
     private int vertexVbo;
     private int colorVbo;
 
     public GlGraphics() {
+        defaultCamera = new PixelBasedCamera(Engine.instance.getWidth(), Engine.instance.getHeight());
+        glfwSetWindowSizeCallback(Engine.window, defaultCamera);
+        camera = defaultCamera;
+
         shaderProgram = new GlShaderProgram();
 
         vao = glGenVertexArrays();
@@ -59,7 +65,8 @@ public class GlGraphics implements Graphics, Disposable {
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
         glBindVertexArray(0);
-        rectangleBatch = new GlRectangleBatch(vao, vertexVbo, colorVbo);
+        triangleBatch = new GlShapeBatch(vao, vertexVbo, colorVbo, 3);
+        lineBatch = new GlShapeBatch(vao, vertexVbo, colorVbo, 2);
     }
 
     @Override
@@ -74,11 +81,11 @@ public class GlGraphics implements Graphics, Disposable {
     }
 
     public Camera getCamera() {
-        return camera;
+        return camera == defaultCamera ? null :camera;
     }
 
     public void setCamera(Camera camera) {
-        this.camera = camera;
+        this.camera = camera == null ? defaultCamera : camera;
     }
 
     @Override
@@ -98,12 +105,24 @@ public class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawEllipse(float x, float y, float width, float height, int segments) {
+        double inc = (Math.PI * 2) / segments;
+        for (double theta = 0; theta < Math.PI * 2; theta += inc) {
+            float x1 = (float) (width * Math.cos(theta));
+            float x2 = (float) (width * Math.cos(theta + inc));
+            float y1 = (float) (height * Math.sin(theta));
+            float y2 = (float) (height * Math.sin(theta + inc));
 
+            lineBatch.add(color,
+                    camera.project(x + x1, y + y1, 0),
+                    camera.project(x + x2, y + y2, 0));
+        }
     }
 
     @Override
     public void drawLine(float x1, float y1, float x2, float y2) {
-
+        lineBatch.add(color,
+                camera.project(x1, y1, 0),
+                camera.project(x2, y2, 0));
     }
 
     @Override
@@ -113,6 +132,18 @@ public class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawRect(float x, float y, float width, float height) {
+        lineBatch.add(color,
+                camera.project(x, y, 0),
+                camera.project(x, y + height, 0));
+        lineBatch.add(color,
+                camera.project(x, y + height, 0),
+                camera.project(x + width, y + height, 0));
+        lineBatch.add(color,
+                camera.project(x + width, y + height, 0),
+                camera.project(x + width, y, 0));
+        lineBatch.add(color,
+                camera.project(x + width, y, 0),
+                camera.project(x, y, 0));
 
     }
 
@@ -128,22 +159,37 @@ public class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void fillEllipse(float x, float y, float width, float height, int segments) {
+        double inc = (Math.PI * 2) / segments;
+        for (double theta = 0; theta < Math.PI * 2; theta += inc) {
+            float x1 = (float) (width * Math.cos(theta));
+            float x2 = (float) (width * Math.cos(theta + inc));
+            float y1 = (float) (height * Math.sin(theta));
+            float y2 = (float) (height * Math.sin(theta + inc));
 
+            triangleBatch.add(color,
+                    camera.project(x, y, 0),
+                    camera.project(x + x1, y + y1, 0),
+                    camera.project(x + x2, y + y2, 0));
+        }
     }
 
     @Override
     public void fillRect(float x, float y, float width, float height) {
-        rectangleBatch.add(color,
-                new Vector3(x, y, 0),
-                new Vector3(x, y + height, 0),
-                new Vector3(x + width, y, 0),
-                new Vector3(x + width, y + height, 0),
-                new Vector3(x + width, y, 0),
-                new Vector3(x, y + height, 0));
+        triangleBatch.add(color,
+                camera.project(x, y, 0),
+                camera.project(x, y + height, 0),
+                camera.project(x + width, y, 0)
+        );
+        triangleBatch.add(color,
+                camera.project(x + width, y + height, 0),
+                camera.project(x + width, y, 0),
+                camera.project(x, y + height, 0)
+        );
     }
 
     public void draw() {
-        rectangleBatch.flush();
+        triangleBatch.flush();
+        lineBatch.flush();
     }
 
     @Override

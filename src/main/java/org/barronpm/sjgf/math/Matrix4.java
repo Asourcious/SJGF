@@ -38,16 +38,16 @@ public final class Matrix4 {
         this.values = new float[4][4];
     }
 
-    public static Matrix4 createOrtho(int left, int right, int bottom, int top) {
+    public static Matrix4 createOrtho(float left, float right, float bottom, float top) {
         float f = 0;
         float n = Integer.MAX_VALUE;
 
         Matrix4 matrix = new Matrix4();
 
         matrix.values[0][0] = 2f / (right - left);
-        matrix.values[0][3] = -((float) right + left) / (right - left);
+        matrix.values[0][3] = -(right + left) / (right - left);
         matrix.values[1][1] = 2f / (top - bottom);
-        matrix.values[1][3] = -((float) top + bottom) / (top - bottom);
+        matrix.values[1][3] = -(top + bottom) / (top - bottom);
         matrix.values[2][2] = 2f / (f - n);
         matrix.values[2][3] = -(f + n) / (f - n);
         matrix.values[3][3] = 1;
