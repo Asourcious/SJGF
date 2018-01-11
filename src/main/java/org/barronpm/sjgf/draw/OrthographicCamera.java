@@ -19,12 +19,16 @@ package org.barronpm.sjgf.draw;
 import org.barronpm.sjgf.math.Matrix4;
 import org.barronpm.sjgf.math.Vector3;
 
-public class OrthographicCamera implements Camera {
+public final class OrthographicCamera implements Camera {
 
     private Matrix4 projection;
     private Matrix4 inverseProjection;
 
-    public OrthographicCamera(int left, int right, int bottom, int top) {
+    public OrthographicCamera(float left, float right, float bottom, float top) {
+        setViewport(left, right, bottom, top);
+    }
+
+    public void setViewport(float left, float right, float bottom, float top) {
         projection = Matrix4.createOrtho(left, right, bottom, top);
         inverseProjection = projection.invert();
     }
