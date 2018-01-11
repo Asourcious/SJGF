@@ -57,7 +57,7 @@ public final class GlGameWindow implements GameWindow {
     public void start() {
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
-        GlGraphics graphics = new GlGraphics();
+        GlGraphics graphics = new GlGraphics(this);
 
         double previous = glfwGetTime();
         while (!glfwWindowShouldClose(window)) {
@@ -209,5 +209,9 @@ public final class GlGameWindow implements GameWindow {
     @Override
     public Game getGame() {
         return game;
+    }
+
+    public long getHandle() {
+        return window;
     }
 }

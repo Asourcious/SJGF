@@ -18,7 +18,7 @@ package org.barronpm.sjgf.backend.draw;
 
 import org.barronpm.sjgf.Disposable;
 import org.barronpm.sjgf.backend.Args;
-import org.barronpm.sjgf.backend.Engine;
+import org.barronpm.sjgf.backend.GlGameWindow;
 import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
@@ -46,9 +46,9 @@ public class GlGraphics implements Graphics, Disposable {
     private int vertexVbo;
     private int colorVbo;
 
-    public GlGraphics() {
-        defaultCamera = new PixelBasedCamera(Engine.instance.getWidth(), Engine.instance.getHeight());
-        glfwSetWindowSizeCallback(Engine.window, defaultCamera);
+    public GlGraphics(GlGameWindow window) {
+        defaultCamera = new PixelBasedCamera(window.getWidth(), window.getHeight());
+        glfwSetWindowSizeCallback(window.getHandle(), defaultCamera);
         camera = defaultCamera;
 
         shaderProgram = new GlShaderProgram();
