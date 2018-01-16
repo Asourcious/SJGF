@@ -17,7 +17,6 @@
 package org.barronpm.sjgf.input;
 
 import org.barronpm.sjgf.backend.Args;
-import org.barronpm.sjgf.backend.Engine;
 import org.lwjgl.BufferUtils;
 
 import java.nio.DoubleBuffer;
@@ -34,20 +33,20 @@ public final class Mouse {
 
     public float getX() {
         tmp.clear();
-        glfwGetCursorPos(Engine.window, tmp, null);
+        glfwGetCursorPos(glfwGetCurrentContext(), tmp, null);
 
         return (float) tmp.get();
     }
 
     public float getY() {
         tmp.clear();
-        glfwGetCursorPos(Engine.window, null, tmp);
+        glfwGetCursorPos(glfwGetCurrentContext(), null, tmp);
 
         return (float) tmp.get();
     }
 
     public static boolean isButtonPressed(Buttons button) {
-        return glfwGetMouseButton(Engine.window, button.getId()) == GLFW_PRESS;
+        return glfwGetMouseButton(glfwGetCurrentContext(), button.getId()) == GLFW_PRESS;
     }
 
     public static Set<Buttons> getPressedButtons() {

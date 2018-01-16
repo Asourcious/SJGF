@@ -16,7 +16,6 @@
 
 package org.barronpm.sjgf;
 
-import org.barronpm.sjgf.backend.Engine;
 import org.barronpm.sjgf.backend.GlGameWindow;
 import org.barronpm.sjgf.exceptions.SJGFException;
 
@@ -24,6 +23,8 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class GameWindowBuilder {
+
+    private static boolean gameExists = false;
 
     private final Game game;
 
@@ -140,7 +141,7 @@ public final class GameWindowBuilder {
     }
 
     public GameWindow build() {
-        if (Engine.instance != null)
+        if (gameExists)
             throw new IllegalStateException("Only one GameWindow can exist");
 
         if (!glfwInit())
@@ -158,8 +159,7 @@ public final class GameWindowBuilder {
         if (window == NULL)
             throw new SJGFException("Failed to create window");
 
-        Engine.window = window;
-        Engine.instance = new GlGameWindow(game, window, title, monitor, useVSync, state);
-        return Engine.instance;
+        gameExists = true;
+        return new GlGameWindow(game, window, title, monitor, useVSync, state);
     }
 }

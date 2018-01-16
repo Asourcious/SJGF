@@ -16,22 +16,19 @@
 
 package org.barronpm.sjgf.input;
 
-import org.barronpm.sjgf.backend.Engine;
-
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.glfwGetKey;
+import static org.lwjgl.glfw.GLFW.*;
 
 public final class Keyboard {
 
     private Keyboard() {}
 
     public static boolean isKeyPressed(Keys key) {
-        return glfwGetKey(Engine.window, key.getCode()) == GLFW_PRESS;
+        return glfwGetKey(glfwGetCurrentContext(), key.getCode()) == GLFW_PRESS;
     }
 
     public static Set<Keys> getPressedKeys() {
