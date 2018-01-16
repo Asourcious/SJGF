@@ -16,7 +16,7 @@
 
 package org.barronpm.sjgf.input;
 
-import org.barronpm.sjgf.backend.Args;
+import org.barronpm.sjgf.util.Args;
 import org.lwjgl.BufferUtils;
 
 import java.nio.DoubleBuffer;

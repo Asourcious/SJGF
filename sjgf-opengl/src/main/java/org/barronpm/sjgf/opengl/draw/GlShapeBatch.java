@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.barronpm.sjgf.backend.draw;
+package org.barronpm.sjgf.opengl.draw;
 
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.math.Vector3;

@@ -16,8 +16,12 @@
 
 package org.barronpm.sjgf;
 
+import org.barronpm.sjgf.exceptions.SJGFException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Optional;
+import java.util.ServiceLoader;
 
 /**
  * A GameWindow represents an OS window and contains an instance of a {@link Game}.
@@ -25,12 +29,11 @@ import org.slf4j.LoggerFactory;
  * Only one GameWindow can exist in a program. GameWindow objects have
  * mutable parameters, such as position, dimensions, and title.
  *
- * To create a GameWindow instance, use the {@link GameWindowBuilder} class.
+ * To create a GameWindow instance, use the {@link #create(Game)} method.
  *
  * @author Patrick Barron
  * @see Disposable
  * @see Game
- * @see GameWindowBuilder
  * @since 1.0
  */
 public interface GameWindow {
@@ -42,6 +45,17 @@ public interface GameWindow {
      * @since 1.0
      */
     Logger LOG = LoggerFactory.getLogger(GameWindow.class);
+
+    static GameWindow create(Game game) {
+        Optional<GameWindow> optionalWindow = ServiceLoader.load(GameWindow.class).findFirst();
+        if (!optionalWindow.isPresent())
+            throw new SJGFException("No implementation of GameWindow");
+
+        GameWindow gameWindow = optionalWindow.get();
+        gameWindow.setGame(game);
+
+        return gameWindow;
+    }
 
     /**
      * Returns the x coordinate of the upper-left corner of this window.
@@ -231,6 +245,8 @@ public interface GameWindow {
      * @since 1.0
      */
     Game getGame();
+
+    void setGame(Game game);
 
     /**
      * Starts this window's game. This method initializes OpenGL and starts this

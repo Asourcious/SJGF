@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.barronpm.sjgf.backend.draw;
+package org.barronpm.sjgf.opengl.draw;
 
 import org.barronpm.sjgf.Disposable;
-import org.barronpm.sjgf.backend.Args;
-import org.barronpm.sjgf.backend.GlGameWindow;
 import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
 import org.barronpm.sjgf.draw.Texture;
+import org.barronpm.sjgf.util.Args;
+import org.barronpm.sjgf.opengl.GlGameWindow;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
@@ -30,7 +30,7 @@ import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
 import static org.lwjgl.opengl.GL30.*;
 
-public class GlGraphics implements Graphics, Disposable {
+public final class GlGraphics implements Graphics, Disposable {
 
     private Color color = Color.BLACK;
     private Camera camera;

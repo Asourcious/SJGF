@@ -21,8 +21,25 @@ import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+/**
+ * Contains
+ *
+ * @author Patrick Barron
+ * @see Keyboard
+ * @since 1.0
+ */
 public enum Keys {
+
+    /**
+     * The space key.
+     *
+     * @since 1.0
+     */
     SPACE(GLFW_KEY_SPACE),
+
+    /**
+     * The
+     */
     APOSTROPHE(GLFW_KEY_APOSTROPHE),
     COMMA(GLFW_KEY_COMMA),
     MINUS(GLFW_KEY_MINUS),

@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.barronpm.sjgf.backend;
+package org.barronpm.sjgf.opengl;
 
 import org.barronpm.sjgf.Game;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.Monitor;
 import org.barronpm.sjgf.WindowState;
-import org.barronpm.sjgf.backend.draw.GlGraphics;
 import org.barronpm.sjgf.draw.Color;
+import org.barronpm.sjgf.opengl.draw.GlGraphics;
 import org.barronpm.sjgf.exceptions.SJGFException;
+import org.barronpm.sjgf.util.Args;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
 
@@ -34,8 +35,8 @@ import static org.lwjgl.system.MemoryUtil.NULL;
 
 public final class GlGameWindow implements GameWindow {
 
-    private final Game game;
-    private final long window;
+    private Game game;
+    private long window;
 
     private String title;
     private Monitor monitor;
@@ -43,6 +44,19 @@ public final class GlGameWindow implements GameWindow {
     private WindowState state;
 
     private final IntBuffer tmp = BufferUtils.createIntBuffer(1);
+
+    public GlGameWindow() {
+        if (!glfwInit())
+            throw new SJGFException("Failed to initialize GLFW");
+
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+        window = glfwCreateWindow(800, 600, "SJGF", NULL, NULL);
+
+        if (window == NULL)
+            throw new SJGFException("Failed to create window");
+    }
 
     public GlGameWindow(Game game, long window, String title, Monitor monitor, boolean useVsync, WindowState state) {
         this.game = game;
@@ -209,6 +223,12 @@ public final class GlGameWindow implements GameWindow {
     @Override
     public Game getGame() {
         return game;
+    }
+
+    @Override
+    public void setGame(Game game) {
+        Args.notNull(game, "game");
+        this.game = game;
     }
 
     public long getHandle() {

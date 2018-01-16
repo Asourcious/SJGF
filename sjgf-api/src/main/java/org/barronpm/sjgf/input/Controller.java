@@ -16,7 +16,7 @@
 
 package org.barronpm.sjgf.input;
 
-import org.barronpm.sjgf.backend.Args;
+import org.barronpm.sjgf.util.Args;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWGamepadState;
 
@@ -169,11 +169,12 @@ public final class Controller {
      * @since 1.0
      */
     public boolean isButtonDown(Buttons button) {
-        checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        return glfwGetJoystickButtons(slot).get(button.getId()) == GLFW_PRESS;
+        //checkConnected();
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.buttons(button.getId()) == GLFW_PRESS;
+        //return state.buttons(button.getId()) == GLFW_PRESS;
     }
 
     /**
@@ -207,10 +208,11 @@ public final class Controller {
      */
     public float getLeftStickX() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
+        //return state.axes(GLFW_GAMEPAD_AXIS_LEFT_X);
+        return glfwGetJoystickAxes(slot).get(0);
     }
 
     /**
@@ -222,10 +224,11 @@ public final class Controller {
      */
     public float getLeftStickY() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_LEFT_Y);
+        //return state.axes(GLFW_GAMEPAD_AXIS_LEFT_Y);
+        return glfwGetJoystickAxes(slot).get(1);
     }
 
     /**
@@ -237,10 +240,11 @@ public final class Controller {
      */
     public float getRightStickX() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_X);
+        //return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_X);
+        return glfwGetJoystickAxes(slot).get(3);
     }
 
     /**
@@ -252,10 +256,11 @@ public final class Controller {
      */
     public float getRightStickY() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y);
+        //return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_Y);
+        return glfwGetJoystickAxes(slot).get(4);
     }
 
     /**
@@ -267,10 +272,11 @@ public final class Controller {
      */
     public float getLeftTrigger() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_LEFT_TRIGGER);
+        //return state.axes(GLFW_GAMEPAD_AXIS_LEFT_TRIGGER);
+        return glfwGetJoystickAxes(slot).get(2);
     }
 
     /**
@@ -280,10 +286,11 @@ public final class Controller {
      */
     public float getRightTrigger() {
         checkConnected();
-        checkSupported();
-        glfwGetGamepadState(slot, state);
+        //checkSupported();
+        //glfwGetGamepadState(slot, state);
 
-        return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER);
+        //return state.axes(GLFW_GAMEPAD_AXIS_RIGHT_TRIGGER);
+        return glfwGetJoystickAxes(slot).get(5);
     }
 
     private void checkConnected() {

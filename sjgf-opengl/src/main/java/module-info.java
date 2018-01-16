@@ -14,7 +14,16 @@
  * limitations under the License.
  */
 
-rootProject.name = 'SJGF'
+import org.barronpm.sjgf.GameWindow;
+import org.barronpm.sjgf.opengl.GlGameWindow;
 
-include "sjgf-api"
-include "sjgf-opengl"
+module org.barronpm.sjgf.opengl {
+    requires org.barronpm.sjgf;
+
+    requires org.lwjgl;
+    requires org.lwjgl.glfw;
+    requires org.lwjgl.openal;
+    requires org.lwjgl.opengl;
+
+    provides GameWindow with GlGameWindow;
+}
