@@ -19,15 +19,14 @@ plugins {
     id "com.zyxist.chainsaw" version "0.1.3"
 }
 
-group "org.barronpm"
-version "0.1-alpha"
-
 ext.slf4jVersion = "1.8.0-beta0"
 
 allprojects {
     apply plugin: "java-library"
     apply plugin: "com.zyxist.chainsaw"
 
+    group "org.barronpm"
+    version "0.1-alpha"
     sourceCompatibility = 1.9
 
     repositories {
