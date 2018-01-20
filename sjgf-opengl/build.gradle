@@ -16,7 +16,6 @@
 
 import org.gradle.internal.os.OperatingSystem
 
-project.name = "sjgf-opengl"
 javaModule.name = "org.barronpm.sjgf.opengl"
 
 ext.lwjglVersion = "3.1.5"
@@ -46,3 +45,5 @@ dependencies {
     implementation "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
     implementation "org.lwjgl:lwjgl-opengl:$lwjglVersion:$lwjglNatives"
 }
+
+javadoc.enabled = false
