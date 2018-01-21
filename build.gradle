@@ -21,7 +21,7 @@ plugins {
 
 ext.slf4jVersion = "1.8.0-beta0"
 
-allprojects {
+subprojects {
     apply plugin: "java-library"
     apply plugin: "com.zyxist.chainsaw"
 
@@ -36,11 +36,11 @@ allprojects {
     dependencies {
         api "org.slf4j:slf4j-api:$slf4jVersion"
     }
-}
 
-jar {
-    baseName = project.name
-    manifest {
-        attributes 'Implementation-Version': version
+    jar {
+        manifest {
+            from('src/main/resources/META-INF/MANIFEST.MF')
+            attributes 'Implementation-Version' : project.version
+        }
     }
 }
