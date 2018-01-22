@@ -45,6 +45,5 @@ javadoc {
     options.encoding = "UTF-8"
     options.addStringOption("-html5")
 
-    exclude("org/barronpm/sjgf/backend")
     exclude("module-info.java")
 }
