@@ -33,7 +33,7 @@ public class GlShader implements Disposable {
         glCompileShader(handle);
 
         if (glGetShaderi(handle, GL_COMPILE_STATUS) != GL_TRUE) {
-            throw new SJGFException("Failed to compile handle: "
+            throw new SJGFException("Failed to compile shader: "
                     + glGetShaderInfoLog(handle));
         }
     }
