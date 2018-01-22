@@ -22,36 +22,12 @@ import org.barronpm.sjgf.exceptions.SJGFException;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
-public enum GlShader implements Disposable {
-    VERTEX(GL_VERTEX_SHADER,
-            "#version 330 core\n" +
-            "\n" +
-            "layout (location = 0) in vec3 pos;\n" +
-            "layout (location = 1) in vec4 col;\n" +
-            "\n" +
-            "out vec4 color;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    gl_Position = vec4(pos.x, pos.y, pos.z, 1.0);\n" +
-            "    color = col;\n" +
-            "}"),
-    FRAGMENT(GL_FRAGMENT_SHADER,
-            "#version 330 core\n" +
-            "\n" +
-            "in vec4 color;\n" +
-            "\n" +
-            "out vec4 fragColor;\n" +
-            "\n" +
-            "void main()\n" +
-            "{\n" +
-            "    fragColor = color;\n" +
-            "}");
+public class GlShader implements Disposable {
 
     private final int handle;
     private boolean disposed = false;
 
-    GlShader(int type, String source) {
+    public GlShader(int type, String source) {
         handle = glCreateShader(type);
         glShaderSource(handle, source);
         glCompileShader(handle);

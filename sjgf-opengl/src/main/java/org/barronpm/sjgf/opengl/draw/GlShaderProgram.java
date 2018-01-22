@@ -27,10 +27,11 @@ public class GlShaderProgram implements Disposable {
     private final int program;
     private boolean disposed = false;
 
-    public GlShaderProgram() {
+    public GlShaderProgram(GlShader vertexShader, GlShader fragmentShader) {
         program = glCreateProgram();
-        glAttachShader(program, GlShader.VERTEX.getHandle());
-        glAttachShader(program, GlShader.FRAGMENT.getHandle());
+
+        glAttachShader(program, vertexShader.getHandle());
+        glAttachShader(program, fragmentShader.getHandle());
         glLinkProgram(program);
 
         if (glGetProgrami(program, GL_LINK_STATUS) != GL_TRUE) {
@@ -39,8 +40,8 @@ public class GlShaderProgram implements Disposable {
         }
 
         glUseProgram(program);
-        GlShader.VERTEX.dispose();
-        GlShader.FRAGMENT.dispose();
+        vertexShader.dispose();
+        fragmentShader.dispose();
     }
 
     public int getHandle() {

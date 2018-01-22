@@ -21,13 +21,14 @@ import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
 import org.barronpm.sjgf.draw.Texture;
-import org.barronpm.sjgf.util.Args;
 import org.barronpm.sjgf.opengl.GlGameWindow;
+import org.barronpm.sjgf.opengl.util.FileUtils;
+import org.barronpm.sjgf.util.Args;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
 import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glVertexAttribPointer;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public final class GlGraphics implements Graphics, Disposable {
@@ -51,7 +52,10 @@ public final class GlGraphics implements Graphics, Disposable {
         glfwSetWindowSizeCallback(window.getHandle(), defaultCamera);
         camera = defaultCamera;
 
-        shaderProgram = new GlShaderProgram();
+        GlShader vertex = new GlShader(GL_VERTEX_SHADER, FileUtils.getResourceContents("shaders/vertex.glsl"));
+        GlShader fragment = new GlShader(GL_FRAGMENT_SHADER, FileUtils.getResourceContents("shaders/fragment.glsl"));
+
+        shaderProgram = new GlShaderProgram(vertex, fragment);
 
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
