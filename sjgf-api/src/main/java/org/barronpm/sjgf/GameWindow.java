@@ -247,6 +247,13 @@ public interface GameWindow {
      */
     Game getGame();
 
+    /**
+     * Sets the game object that this window is displaying.
+     *
+     * @param game non-null game instance
+     * @throws NullPointerException if game is null
+     * @since 1.0
+     */
     void setGame(Game game);
 
     /**
