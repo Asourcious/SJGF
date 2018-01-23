@@ -17,13 +17,14 @@
 package org.barronpm.sjgf.opengl.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.stream.Collectors;
 
 public class FileUtils {
 
     public static String getResourceContents(String path) {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(FileUtils.class.getClassLoader().getResourceAsStream(path)));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(FileUtils.class.getResourceAsStream(path)));
         return reader.lines().collect(Collectors.joining("\n"));
     }
 
