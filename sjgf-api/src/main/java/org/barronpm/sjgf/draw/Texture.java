@@ -21,7 +21,4 @@ import org.barronpm.sjgf.Disposable;
 public interface Texture extends Disposable {
     int getWidth();
     int getHeight();
-    byte[] getData();
-
-    void bind();
 }

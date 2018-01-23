@@ -24,6 +24,7 @@ module org.barronpm.sjgf.opengl {
     requires org.lwjgl.glfw;
     requires org.lwjgl.openal;
     requires org.lwjgl.opengl;
+    requires org.lwjgl.stb;
 
     provides GameWindow with GlGameWindow;
 }

@@ -26,6 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
+import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class GlShapeBatch {
@@ -39,10 +40,13 @@ public class GlShapeBatch {
     private final float[] vertexArray;
     private final float[] colorArray;
 
+    private final GlShaderProgram shaderProgram;
+
     private int numShapes = 0;
     private final int numVertices;
 
-    public GlShapeBatch(int vao, int vertexVbo, int colorVbo, int numVertices) {
+    public GlShapeBatch(GlShaderProgram shaderProgram, int vao, int vertexVbo, int colorVbo, int numVertices) {
+        this.shaderProgram = shaderProgram;
         this.vao = vao;
         this.vertexVbo = vertexVbo;
         this.colorVbo = colorVbo;
@@ -81,6 +85,7 @@ public class GlShapeBatch {
         vertices.flip();
         colors.flip();
 
+        glUseProgram(shaderProgram.getHandle());
         glBindBuffer(GL_ARRAY_BUFFER, vertexVbo);
         glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, colorVbo);

@@ -16,6 +16,7 @@
 
 package org.barronpm.sjgf;
 
+import org.barronpm.sjgf.draw.Texture;
 import org.barronpm.sjgf.exceptions.SJGFException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -247,6 +248,8 @@ public interface GameWindow {
     Game getGame();
 
     void setGame(Game game);
+
+    ResourceLoader<Texture> getTextureLoader();
 
     /**
      * Starts this window's game. This method initializes OpenGL and starts this

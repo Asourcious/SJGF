@@ -16,13 +16,11 @@
 
 package org.barronpm.sjgf.opengl;
 
-import org.barronpm.sjgf.Game;
-import org.barronpm.sjgf.GameWindow;
-import org.barronpm.sjgf.Monitor;
-import org.barronpm.sjgf.WindowState;
+import org.barronpm.sjgf.*;
 import org.barronpm.sjgf.draw.Color;
-import org.barronpm.sjgf.opengl.draw.GlGraphics;
+import org.barronpm.sjgf.draw.Texture;
 import org.barronpm.sjgf.exceptions.SJGFException;
+import org.barronpm.sjgf.opengl.draw.GlGraphics;
 import org.barronpm.sjgf.util.Args;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
@@ -37,6 +35,7 @@ public final class GlGameWindow implements GameWindow {
 
     private Game game;
     private long window;
+    private ResourceLoader<Texture> textureLoader;
 
     private String title;
     private Monitor monitor;
@@ -56,15 +55,8 @@ public final class GlGameWindow implements GameWindow {
 
         if (window == NULL)
             throw new SJGFException("Failed to create window");
-    }
 
-    public GlGameWindow(Game game, long window, String title, Monitor monitor, boolean useVsync, WindowState state) {
-        this.game = game;
-        this.window = window;
-        this.title = title;
-        this.monitor = monitor;
-        this.useVsync = useVsync;
-        this.state = state;
+        textureLoader = new GlTextureLoader();
     }
 
     @Override
@@ -73,6 +65,7 @@ public final class GlGameWindow implements GameWindow {
         GL.createCapabilities();
         GlGraphics graphics = new GlGraphics(this);
 
+        game.init(this);
         double previous = glfwGetTime();
         while (!glfwWindowShouldClose(window)) {
             double current = glfwGetTime();
@@ -229,6 +222,11 @@ public final class GlGameWindow implements GameWindow {
     public void setGame(Game game) {
         Args.notNull(game, "game");
         this.game = game;
+    }
+
+    @Override
+    public ResourceLoader<Texture> getTextureLoader() {
+        return textureLoader;
     }
 
     public long getHandle() {

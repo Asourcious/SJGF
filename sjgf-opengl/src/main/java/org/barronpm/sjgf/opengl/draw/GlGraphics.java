@@ -21,6 +21,7 @@ import org.barronpm.sjgf.draw.Camera;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Graphics;
 import org.barronpm.sjgf.draw.Texture;
+import org.barronpm.sjgf.math.Vector3;
 import org.barronpm.sjgf.opengl.GlGameWindow;
 import org.barronpm.sjgf.opengl.util.FileUtils;
 import org.barronpm.sjgf.util.Args;
@@ -38,10 +39,12 @@ public final class GlGraphics implements Graphics, Disposable {
 
     private final PixelBasedCamera defaultCamera;
 
-    private GlShaderProgram shaderProgram;
+    private GlShaderProgram shapeProgram;
+    private GlShaderProgram textureProgram;
 
     private GlShapeBatch lineBatch;
     private GlShapeBatch triangleBatch;
+    private GlTextureBatch textureBatch;
 
     private int vao;
     private int vertexVbo;
@@ -52,10 +55,19 @@ public final class GlGraphics implements Graphics, Disposable {
         glfwSetWindowSizeCallback(window.getHandle(), defaultCamera);
         camera = defaultCamera;
 
-        GlShader vertex = new GlShader(GL_VERTEX_SHADER, FileUtils.getResourceContents("shaders/vertex.glsl"));
-        GlShader fragment = new GlShader(GL_FRAGMENT_SHADER, FileUtils.getResourceContents("shaders/fragment.glsl"));
+        GlShader vertex = new GlShader(GL_VERTEX_SHADER,
+                FileUtils.getResourceContents("/shaders/default.vert"));
+        GlShader fragment = new GlShader(GL_FRAGMENT_SHADER,
+                FileUtils.getResourceContents("/shaders/default.frag"));
 
-        shaderProgram = new GlShaderProgram(vertex, fragment);
+        shapeProgram = new GlShaderProgram(vertex, fragment);
+
+        vertex = new GlShader(GL_VERTEX_SHADER,
+                FileUtils.getResourceContents("/shaders/texture.vert"));
+        fragment = new GlShader(GL_FRAGMENT_SHADER,
+                FileUtils.getResourceContents("/shaders/texture.frag"));
+
+        textureProgram = new GlShaderProgram(vertex, fragment);
 
         vao = glGenVertexArrays();
         glBindVertexArray(vao);
@@ -69,8 +81,9 @@ public final class GlGraphics implements Graphics, Disposable {
         glVertexAttribPointer(1, 4, GL_FLOAT, false, 0, 0);
 
         glBindVertexArray(0);
-        triangleBatch = new GlShapeBatch(vao, vertexVbo, colorVbo, 3);
-        lineBatch = new GlShapeBatch(vao, vertexVbo, colorVbo, 2);
+        triangleBatch = new GlShapeBatch(shapeProgram, vao, vertexVbo, colorVbo, 3);
+        lineBatch = new GlShapeBatch(shapeProgram, vao, vertexVbo, colorVbo, 2);
+        textureBatch = new GlTextureBatch(textureProgram);
     }
 
     @Override
@@ -154,6 +167,14 @@ public final class GlGraphics implements Graphics, Disposable {
     @Override
     public void drawTexture(Texture texture, float x, float y) {
 
+        Vector3 v0 = camera.project(x, y, 0);
+        Vector3 v1 = camera.project(x, y + texture.getHeight(), 0);
+        Vector3 v2 = camera.project(x + texture.getWidth(), y, 0);
+        Vector3 v3 = camera.project(x+ texture.getWidth(), y + texture.getHeight(), 0);
+
+        textureBatch.add(texture,
+                v0, v1, v2,
+                v2, v3, v1);
     }
 
     @Override
@@ -194,11 +215,13 @@ public final class GlGraphics implements Graphics, Disposable {
     public void draw() {
         triangleBatch.flush();
         lineBatch.flush();
+        textureBatch.flush();
     }
 
     @Override
     public void dispose() {
-        shaderProgram.dispose();
+        shapeProgram.dispose();
+        textureProgram.dispose();
         glDeleteBuffers(vertexVbo);
         glDeleteBuffers(colorVbo);
         glDeleteVertexArrays(vao);
