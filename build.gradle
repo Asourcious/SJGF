@@ -21,6 +21,9 @@ plugins {
 
 ext.slf4jVersion = "1.8.0-beta0"
 
+jar.enabled = false
+javadoc.enabled = false
+
 subprojects {
     apply plugin: "java-library"
     apply plugin: "com.zyxist.chainsaw"
