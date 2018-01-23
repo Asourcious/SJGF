@@ -47,6 +47,17 @@ public interface GameWindow {
      */
     Logger LOG = LoggerFactory.getLogger(GameWindow.class);
 
+    /**
+     * Creates a new GameWindow that renders the provided game.
+     * For this method to work, there must be an implementation of GameWindow
+     * present. If there is none, it will throw a {@link SJGFException}.
+     *
+     * @param game the game to be rendered.
+     * @return the new GameWindow instance
+     * @throws NullPointerException if game is <code>null</code>
+     * @throws SJGFException if no implementation of GameWindow is found.
+     * @since 1.0
+     */
     static GameWindow create(Game game) {
         Optional<GameWindow> optionalWindow = ServiceLoader.load(GameWindow.class).findFirst();
         if (!optionalWindow.isPresent())
