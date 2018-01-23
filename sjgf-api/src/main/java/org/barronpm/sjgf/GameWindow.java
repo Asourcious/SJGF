@@ -243,6 +243,7 @@ public interface GameWindow {
      * Returns the game instance associated with this window.
      *
      * @return the game instance associated with this window
+     * @see #setGame(Game)
      * @since 1.0
      */
     Game getGame();
@@ -252,6 +253,7 @@ public interface GameWindow {
      *
      * @param game non-null game instance
      * @throws NullPointerException if game is null
+     * @see #getGame()
      * @since 1.0
      */
     void setGame(Game game);
