@@ -18,6 +18,7 @@ package org.barronpm.sjgf;
 
 import org.barronpm.sjgf.draw.Texture;
 import org.barronpm.sjgf.exceptions.SJGFException;
+import org.barronpm.sjgf.util.Args;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,7 @@ public interface GameWindow {
      * @since 1.0
      */
     static GameWindow create(Game game) {
+        Args.notNull(game, "game");
         Optional<GameWindow> optionalWindow = ServiceLoader.load(GameWindow.class).findFirst();
         if (!optionalWindow.isPresent())
             throw new SJGFException("No implementation of GameWindow");
