@@ -249,6 +249,13 @@ public interface GameWindow {
 
     void setGame(Game game);
 
+    /**
+     * Returns the texture loader associated with this window.
+     *
+     * @return this window's texture loader.
+     * @see ResourceLoader
+     * @since 1.0
+     */
     ResourceLoader<Texture> getTextureLoader();
 
     /**
