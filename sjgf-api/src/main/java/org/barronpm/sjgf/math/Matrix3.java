@@ -38,6 +38,15 @@ public final class Matrix3 {
         this.values = new float[3][3];
     }
 
+    public static Matrix3 createIdentity() {
+        Matrix3 matrix = new Matrix3();
+        matrix.values[0][0] = 1;
+        matrix.values[1][1] = 1;
+        matrix.values[2][2] = 1;
+
+        return matrix;
+    }
+
     public static Matrix3 createOrtho(int left, int right, int bottom, int top) {
 
         Matrix3 matrix = new Matrix3();
@@ -76,7 +85,7 @@ public final class Matrix3 {
     }
 
     public float determinant() {
-        return (values[0][0] * (values[1][1] * values[2][2] - values[1][2] * values[3][0])
+        return (values[0][0] * (values[1][1] * values[2][2] - values[1][2] * values[2][1])
                 - values[0][1] * (values[1][0] * values[2][2] - values[1][2] * values[2][0])
                 + values[0][2] * (values[1][0] * values[2][1] - values[1][1] * values[2][0]));
     }
@@ -84,7 +93,25 @@ public final class Matrix3 {
     public Matrix3 invert() {
         float d = determinant();
 
-        return null;
+        if (d == 0f)
+            return Matrix3.createIdentity();
+
+        d = 1 / d;
+
+        Matrix3 tmp = new Matrix3();
+        tmp.values[0][0] = d * (values[1][1] * values[2][2] - values[1][2] * values[2][1]);
+        tmp.values[0][1] = d * (values[0][2] * values[2][1] - values[0][1] * values[2][2]);
+        tmp.values[0][2] = d * (values[0][1] * values[1][2] - values[0][2] * values[1][1]);
+
+        tmp.values[1][0] = d * (values[1][2] * values[2][0] - values[1][0] * values[2][2]);
+        tmp.values[1][1] = d * (values[0][0] * values[2][2] - values[0][2] * values[2][0]);
+        tmp.values[1][2] = d * (values[0][2] * values[1][0] - values[0][0] * values[1][2]);
+
+        tmp.values[2][0] = d * (values[1][0] * values[2][1] - values[1][1] * values[2][0]);
+        tmp.values[2][1] = d * (values[0][1] * values[2][0] - values[0][0] * values[2][1]);
+        tmp.values[2][2] = d * (values[0][0] * values[1][1] - values[0][1] * values[1][0]);
+
+        return tmp;
     }
 
     @Override
