@@ -17,13 +17,16 @@
 module org.barronpm.sjgf {
     requires transitive org.slf4j;
 
+    requires java.desktop;
     requires org.lwjgl.glfw;
+    requires org.lwjgl.openal;
 
     exports org.barronpm.sjgf;
     exports org.barronpm.sjgf.draw;
     exports org.barronpm.sjgf.exceptions;
     exports org.barronpm.sjgf.input;
     exports org.barronpm.sjgf.math;
+    exports org.barronpm.sjgf.sound;
     exports org.barronpm.sjgf.util;
 
     uses org.barronpm.sjgf.GameWindow;

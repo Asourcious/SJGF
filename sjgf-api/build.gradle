@@ -35,9 +35,11 @@ switch ( OperatingSystem.current() ) {
 dependencies {
     implementation "org.lwjgl:lwjgl:$lwjglVersion"
     implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion"
+    implementation "org.lwjgl:lwjgl-openal:$lwjglVersion"
 
     implementation "org.lwjgl:lwjgl:$lwjglVersion:$lwjglNatives"
     implementation "org.lwjgl:lwjgl-glfw:$lwjglVersion:$lwjglNatives"
+    implementation "org.lwjgl:lwjgl-openal:$lwjglVersion:$lwjglNatives"
 }
 
 javadoc {
