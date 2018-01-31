@@ -22,12 +22,12 @@ import org.barronpm.sjgf.exceptions.SJGFException;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
-public class GlShaderProgram implements Disposable {
+class GlShaderProgram implements Disposable {
 
     private final int program;
     private boolean disposed = false;
 
-    public GlShaderProgram(GlShader vertexShader, GlShader fragmentShader) {
+    GlShaderProgram(GlShader vertexShader, GlShader fragmentShader) {
         program = glCreateProgram();
 
         glAttachShader(program, vertexShader.getHandle());
@@ -44,7 +44,7 @@ public class GlShaderProgram implements Disposable {
         fragmentShader.dispose();
     }
 
-    public int getHandle() {
+    int getHandle() {
         return disposed ? -1 : program;
     }
 

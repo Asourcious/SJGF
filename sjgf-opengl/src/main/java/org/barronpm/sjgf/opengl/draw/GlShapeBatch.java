@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
-public class GlShapeBatch {
+class GlShapeBatch {
 
     private static final int MAX_SHAPES = 30;
 
@@ -45,7 +45,7 @@ public class GlShapeBatch {
     private int numShapes = 0;
     private final int numVertices;
 
-    public GlShapeBatch(GlShaderProgram shaderProgram, int vao, int vertexVbo, int colorVbo, int numVertices) {
+    GlShapeBatch(GlShaderProgram shaderProgram, int vao, int vertexVbo, int colorVbo, int numVertices) {
         this.shaderProgram = shaderProgram;
         this.vao = vao;
         this.vertexVbo = vertexVbo;
@@ -55,7 +55,7 @@ public class GlShapeBatch {
         this.colorArray = new float[MAX_SHAPES * numVertices * 4];
     }
 
-    public void add(Color color, Vector3... vertices) {
+    void add(Color color, Vector3... vertices) {
         for (int i = 0; i < numVertices; i++) {
             vertexArray[numShapes * numVertices * 3 + i * 3] = vertices[i].getX();
             vertexArray[numShapes * numVertices * 3 + i * 3 + 1] = vertices[i].getY();
@@ -71,7 +71,7 @@ public class GlShapeBatch {
             flush();
     }
 
-    public void flush() {
+    void flush() {
         FloatBuffer vertices = BufferUtils.createFloatBuffer(numShapes * numVertices * 3);
         FloatBuffer colors = BufferUtils.createFloatBuffer(numShapes * numVertices * 4);
 

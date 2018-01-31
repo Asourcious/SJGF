@@ -29,7 +29,7 @@ import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
-public class GlTextureBatch {
+class GlTextureBatch {
 
     private static final int MAX_TEXTURES = 30;
 
@@ -44,7 +44,7 @@ public class GlTextureBatch {
 
     private int numTextures = 0;
 
-    public GlTextureBatch(GlShaderProgram program) {
+    GlTextureBatch(GlShaderProgram program) {
         this.program = program;
         this.vertexArray = new float[MAX_TEXTURES * 6 * 3];
         this.textures = new ArrayList<>(MAX_TEXTURES);
@@ -61,7 +61,7 @@ public class GlTextureBatch {
         glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
     }
 
-    public void add(Texture texture, Vector3... vertices) {
+    void add(Texture texture, Vector3... vertices) {
         textures.add(texture);
         for (int i = 0; i < 6; i++) {
             vertexArray[numTextures * 6 * 3 + i * 3] = vertices[i].getX();
@@ -73,7 +73,7 @@ public class GlTextureBatch {
             flush();
     }
 
-    public void flush() {
+    void flush() {
         FloatBuffer vertices = BufferUtils.createFloatBuffer(numTextures * 6 * 3);
         FloatBuffer coords = BufferUtils.createFloatBuffer(numTextures * 6 * 2);
 

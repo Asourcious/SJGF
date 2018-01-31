@@ -22,7 +22,7 @@ import org.barronpm.sjgf.exceptions.SJGFException;
 import static org.lwjgl.opengl.GL11.GL_TRUE;
 import static org.lwjgl.opengl.GL20.*;
 
-public class GlShader implements Disposable {
+class GlShader implements Disposable {
 
     private final int handle;
     private boolean disposed = false;
