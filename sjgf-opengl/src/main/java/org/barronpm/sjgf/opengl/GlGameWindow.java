@@ -22,8 +22,8 @@ import org.barronpm.sjgf.draw.Texture;
 import org.barronpm.sjgf.exceptions.SJGFException;
 import org.barronpm.sjgf.opengl.draw.GlGraphics;
 import org.barronpm.sjgf.util.Args;
-import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
 
@@ -41,8 +41,6 @@ public final class GlGameWindow implements GameWindow {
     private Monitor monitor;
     private boolean useVsync;
     private WindowState state;
-
-    private final IntBuffer tmp = BufferUtils.createIntBuffer(1);
 
     public GlGameWindow() {
         if (!glfwInit())
@@ -100,9 +98,13 @@ public final class GlGameWindow implements GameWindow {
 
     @Override
     public int getX() {
-        tmp.clear();
-        glfwGetWindowPos(window, tmp, null);
-        return tmp.get();
+        MemoryStack stack = MemoryStack.stackPush();
+        IntBuffer buffer = stack.mallocInt(1);
+        glfwGetWindowPos(window, buffer, null);
+        int x = buffer.get();
+        stack.pop();
+
+        return x;
     }
 
     @Override
@@ -112,9 +114,13 @@ public final class GlGameWindow implements GameWindow {
 
     @Override
     public int getY() {
-        tmp.clear();
-        glfwGetWindowPos(window, null, tmp);
-        return tmp.get();
+        MemoryStack stack = MemoryStack.stackPush();
+        IntBuffer buffer = stack.mallocInt(1);
+        glfwGetWindowPos(window, null, buffer);
+        int y = buffer.get();
+        stack.pop();
+
+        return y;
     }
 
     @Override
@@ -124,9 +130,13 @@ public final class GlGameWindow implements GameWindow {
 
     @Override
     public int getWidth() {
-        tmp.clear();
-        glfwGetWindowSize(window, tmp, null);
-        return tmp.get();
+        MemoryStack stack = MemoryStack.stackPush();
+        IntBuffer buffer = stack.mallocInt(1);
+        glfwGetWindowSize(window, buffer, null);
+        int width = buffer.get();
+        stack.pop();
+
+        return width;
     }
 
     @Override
@@ -136,9 +146,13 @@ public final class GlGameWindow implements GameWindow {
 
     @Override
     public int getHeight() {
-        tmp.clear();
-        glfwGetWindowSize(window, null, tmp);
-        return tmp.get();
+        MemoryStack stack = MemoryStack.stackPush();
+        IntBuffer buffer = stack.mallocInt(1);
+        glfwGetWindowSize(window, null, buffer);
+        int height = buffer.get();
+        stack.pop();
+
+        return height;
     }
 
     @Override
