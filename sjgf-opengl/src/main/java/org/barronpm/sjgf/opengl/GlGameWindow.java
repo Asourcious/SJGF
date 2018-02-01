@@ -49,7 +49,9 @@ public final class GlGameWindow implements GameWindow {
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
-        window = glfwCreateWindow(800, 600, "SJGF", NULL, NULL);
+        title = "SJGF";
+        state = WindowState.RESTORED;
+        window = glfwCreateWindow(800, 600, title, NULL, NULL);
 
         if (window == NULL)
             throw new SJGFException("Failed to create window");
