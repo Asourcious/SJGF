@@ -118,6 +118,7 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void setFont(Font font) {
+        Args.notNull(font, "font");
         this.font = font;
     }
 
