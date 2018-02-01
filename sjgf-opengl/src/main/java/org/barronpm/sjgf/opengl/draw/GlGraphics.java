@@ -130,7 +130,20 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawArc(float x, float y, float width, float height, float start, float end, int segments) {
+        double inc = (Math.PI * 2) / segments;
+        float cx = x + (width / 2);
+        float cy = y + (height / 2);
 
+        for (double theta = start; theta < end; theta += inc) {
+            float x1 = (float) (width * Math.cos(theta));
+            float x2 = (float) (width * Math.cos(theta + inc));
+            float y1 = (float) (height * Math.sin(theta));
+            float y2 = (float) (height * Math.sin(theta + inc));
+
+            lineBatch.add(color,
+                    camera.project(cx + x1, cy + y1, 0),
+                    camera.project(cx + x2, cy + y2, 0));
+        }
     }
 
     @Override
