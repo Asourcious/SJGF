@@ -123,7 +123,7 @@ public final class GlGraphics implements Graphics, Disposable {
     }
 
     public Camera getCamera() {
-        return camera == defaultCamera ? null :camera;
+        return camera;
     }
 
     public void setCamera(Camera camera) {
