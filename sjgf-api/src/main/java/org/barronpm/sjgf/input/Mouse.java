@@ -29,7 +29,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public final class Mouse {
 
-    public float getX() {
+    public static float getX() {
         MemoryStack stack = MemoryStack.stackPush();
         DoubleBuffer buffer = stack.mallocDouble(1);
         glfwGetCursorPos(glfwGetCurrentContext(), buffer, null);
@@ -39,7 +39,7 @@ public final class Mouse {
         return x;
     }
 
-    public float getY() {
+    public static float getY() {
         MemoryStack stack = MemoryStack.stackPush();
         DoubleBuffer buffer = stack.mallocDouble(1);
         glfwGetCursorPos(glfwGetCurrentContext(), null, buffer);
