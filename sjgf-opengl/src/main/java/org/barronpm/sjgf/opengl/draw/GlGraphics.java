@@ -26,8 +26,12 @@ import org.barronpm.sjgf.opengl.GlGameWindow;
 import org.barronpm.sjgf.opengl.util.FileUtils;
 import org.barronpm.sjgf.util.Args;
 
+import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -35,6 +39,7 @@ import static org.lwjgl.opengl.GL30.*;
 public final class GlGraphics implements Graphics, Disposable {
 
     private Color color = Color.BLACK;
+    private Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16);
     private Camera camera;
 
     private final PixelBasedCamera defaultCamera;
@@ -50,7 +55,10 @@ public final class GlGraphics implements Graphics, Disposable {
     private int vertexVbo;
     private int colorVbo;
 
+    private final Map<Font, GlFont> fontMap = new HashMap<>();
+
     public GlGraphics(GlGameWindow window) {
+
         defaultCamera = new PixelBasedCamera(window.getWidth(), window.getHeight());
         glfwSetWindowSizeCallback(window.getHandle(), defaultCamera);
         camera = defaultCamera;
@@ -95,6 +103,16 @@ public final class GlGraphics implements Graphics, Disposable {
     public void setColor(Color color) {
         Args.notNull(color, "color");
         this.color = color;
+    }
+
+    @Override
+    public Font getFont() {
+        return font;
+    }
+
+    @Override
+    public void setFont(Font font) {
+        this.font = font;
     }
 
     public Camera getCamera() {
@@ -144,7 +162,46 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawString(String string, float x, float y) {
+        if (!fontMap.containsKey(font))
+            fontMap.put(font, new GlFont(font));
 
+        GlFont font = fontMap.get(this.font);
+
+        int textHeight = font.getHeight(string);
+
+        float drawX = x;
+        float drawY = y;
+        if (textHeight > font.height) {
+            drawY += textHeight - font.height;
+        }
+
+        for (int i = 0; i < string.length(); i++) {
+            char ch = string.charAt(i);
+            if (ch == '\n') {
+                drawY -= font.height;
+                drawX = x;
+                continue;
+            }
+
+            if (ch == '\r') {
+                continue;
+            }
+
+            Glyph g = font.glyphs.get(ch);
+
+            Vector3 v0 = camera.project(drawX, drawY, 0);
+            Vector3 v1 = camera.project(drawX, drawY + g.height, 0);
+            Vector3 v2 = camera.project(drawX + g.width, drawY, 0);
+            Vector3 v3 = camera.project(drawX + g.width, drawY + g.height, 0);
+
+            float s1 = (float) g.x / font.atlas.getWidth();
+            float t1 = (float) g.y / font.atlas.getHeight();
+            float s2 = (float) (g.x + g.width) / font.atlas.getWidth();
+            float t2 = (float) (g.y + g.height) / font.atlas.getHeight();
+
+            textureBatch.addRegion(font.atlas, color, s1, t1, s2, t2, v0, v1, v2, v2, v3, v1);
+            drawX += g.width;
+        }
     }
 
     @Override
@@ -166,13 +223,12 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawTexture(Texture texture, float x, float y) {
-
         Vector3 v0 = camera.project(x, y, 0);
         Vector3 v1 = camera.project(x, y + texture.getHeight(), 0);
         Vector3 v2 = camera.project(x + texture.getWidth(), y, 0);
         Vector3 v3 = camera.project(x+ texture.getWidth(), y + texture.getHeight(), 0);
 
-        textureBatch.add(texture,
+        textureBatch.add(texture, Color.BLACK,
                 v0, v1, v2,
                 v2, v3, v1);
     }

@@ -1,5 +1,5 @@
 /*
- *     Copyright 2017 Patrick Barron
+ *     Copyright 2017-2018 Patrick Barron
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-module org.barronpm.sjgf {
-    requires transitive org.slf4j;
-    requires transitive java.desktop;
+package org.barronpm.sjgf.opengl.draw;
 
-    requires org.lwjgl.glfw;
-    requires org.lwjgl.openal;
+public class Glyph {
 
-    exports org.barronpm.sjgf;
-    exports org.barronpm.sjgf.draw;
-    exports org.barronpm.sjgf.exceptions;
-    exports org.barronpm.sjgf.input;
-    exports org.barronpm.sjgf.math;
-    exports org.barronpm.sjgf.sound;
-    exports org.barronpm.sjgf.util;
+    public final int width;
+    public final int height;
+    public final int x;
+    public final int y;
+    public final float advance;
 
-    uses org.barronpm.sjgf.GameWindow;
+    public Glyph(int width, int height, int x, int y, float advance) {
+        this.width = width;
+        this.height = height;
+        this.x = x;
+        this.y = y;
+        this.advance = advance;
+    }
 }

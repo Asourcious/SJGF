@@ -16,10 +16,15 @@
 
 package org.barronpm.sjgf.draw;
 
+
+import java.awt.Font;
+
 public interface Graphics {
 
     Color getColor();
     void setColor(Color color);
+    Font getFont();
+    void setFont(Font font);
     Camera getCamera();
     void setCamera(Camera camera);
 

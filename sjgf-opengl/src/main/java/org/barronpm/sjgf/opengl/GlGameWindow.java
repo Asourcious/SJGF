@@ -63,6 +63,8 @@ public final class GlGameWindow implements GameWindow {
     public void start() {
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         GlGraphics graphics = new GlGraphics(this);
 
         game.init(this);
