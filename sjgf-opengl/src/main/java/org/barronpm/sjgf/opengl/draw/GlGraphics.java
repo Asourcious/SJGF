@@ -26,12 +26,12 @@ import org.barronpm.sjgf.opengl.GlGameWindow;
 import org.barronpm.sjgf.opengl.util.FileUtils;
 import org.barronpm.sjgf.util.Args;
 
-import java.awt.*;
+import java.awt.Font;
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_FLOAT;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
@@ -228,7 +228,7 @@ public final class GlGraphics implements Graphics, Disposable {
         Vector3 v2 = camera.project(x + texture.getWidth(), y, 0);
         Vector3 v3 = camera.project(x+ texture.getWidth(), y + texture.getHeight(), 0);
 
-        textureBatch.add(texture, Color.BLACK,
+        textureBatch.add(texture, Color.WHITE,
                 v0, v1, v2,
                 v2, v3, v1);
     }
