@@ -48,6 +48,7 @@ public final class GlGameWindow implements GameWindow {
 
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_DEPTH_BITS, 32);
 
         title = "SJGF";
         state = WindowState.RESTORED;
@@ -63,8 +64,6 @@ public final class GlGameWindow implements GameWindow {
     public void start() {
         glfwMakeContextCurrent(window);
         GL.createCapabilities();
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         GlGraphics graphics = new GlGraphics(this);
 
         game.init(this);
@@ -81,7 +80,7 @@ public final class GlGameWindow implements GameWindow {
             glViewport(0, 0, getWidth(), getHeight());
             Color color = game.getBackgroundColor();
             glClearColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-            glClear(GL_COLOR_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             game.render(this, graphics);
 

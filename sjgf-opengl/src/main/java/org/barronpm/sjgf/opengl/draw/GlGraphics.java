@@ -31,12 +31,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwSetWindowSizeCallback;
-import static org.lwjgl.opengl.GL11.GL_FLOAT;
+import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 public final class GlGraphics implements Graphics, Disposable {
+
+    private float z = -0.9f;
 
     private Color color = Color.BLACK;
     private Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16);
@@ -58,6 +60,10 @@ public final class GlGraphics implements Graphics, Disposable {
     private final Map<Font, GlFont> fontMap = new HashMap<>();
 
     public GlGraphics(GlGameWindow window) {
+        glEnable(GL_BLEND);
+        glEnable(GL_DEPTH_TEST);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDepthFunc(GL_LESS);
 
         defaultCamera = new PixelBasedCamera(window.getWidth(), window.getHeight());
         glfwSetWindowSizeCallback(window.getHandle(), defaultCamera);
@@ -141,9 +147,10 @@ public final class GlGraphics implements Graphics, Disposable {
             float y2 = (float) (height * Math.sin(theta + inc));
 
             lineBatch.add(color,
-                    camera.project(cx + x1, cy + y1, 0),
-                    camera.project(cx + x2, cy + y2, 0));
+                    camera.project(cx + x1, cy + y1, z),
+                    camera.project(cx + x2, cy + y2, z));
         }
+        incZ();
     }
 
     @Override
@@ -159,8 +166,9 @@ public final class GlGraphics implements Graphics, Disposable {
     @Override
     public void drawLine(float x1, float y1, float x2, float y2) {
         lineBatch.add(color,
-                camera.project(x1, y1, 0),
-                camera.project(x2, y2, 0));
+                camera.project(x1, y1, z),
+                camera.project(x2, y2, z));
+        incZ();
     }
 
     @Override
@@ -192,10 +200,10 @@ public final class GlGraphics implements Graphics, Disposable {
 
             Glyph g = font.glyphs.get(ch);
 
-            Vector3 v0 = camera.project(drawX, drawY, 0);
-            Vector3 v1 = camera.project(drawX, drawY + g.height, 0);
-            Vector3 v2 = camera.project(drawX + g.width, drawY, 0);
-            Vector3 v3 = camera.project(drawX + g.width, drawY + g.height, 0);
+            Vector3 v0 = camera.project(drawX, drawY, z);
+            Vector3 v1 = camera.project(drawX, drawY + g.height, z);
+            Vector3 v2 = camera.project(drawX + g.width, drawY, z);
+            Vector3 v3 = camera.project(drawX + g.width, drawY + g.height, z);
 
             float s1 = (float) g.x / font.atlas.getWidth();
             float t1 = (float) g.y / font.atlas.getHeight();
@@ -205,23 +213,24 @@ public final class GlGraphics implements Graphics, Disposable {
             textureBatch.addRegion(font.atlas, color, s1, t1, s2, t2, v0, v1, v2, v2, v3, v1);
             drawX += g.width;
         }
+        incZ();
     }
 
     @Override
     public void drawRect(float x, float y, float width, float height) {
         lineBatch.add(color,
-                camera.project(x, y, 0),
-                camera.project(x, y + height, 0));
+                camera.project(x, y, z),
+                camera.project(x, y + height, z));
         lineBatch.add(color,
-                camera.project(x, y + height, 0),
-                camera.project(x + width, y + height, 0));
+                camera.project(x, y + height, z),
+                camera.project(x + width, y + height, z));
         lineBatch.add(color,
-                camera.project(x + width, y + height, 0),
-                camera.project(x + width, y, 0));
+                camera.project(x + width, y + height, z),
+                camera.project(x + width, y, z));
         lineBatch.add(color,
-                camera.project(x + width, y, 0),
-                camera.project(x, y, 0));
-
+                camera.project(x + width, y, z),
+                camera.project(x, y, z));
+        incZ();
     }
 
     @Override
@@ -241,14 +250,15 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawTexture(Texture texture, Color color, float x, float y, float width, float height) {
-        Vector3 v0 = camera.project(x, y, 0);
-        Vector3 v1 = camera.project(x, y + height, 0);
-        Vector3 v2 = camera.project(x + width, y, 0);
-        Vector3 v3 = camera.project(x + width, y + height, 0);
+        Vector3 v0 = camera.project(x, y, z);
+        Vector3 v1 = camera.project(x, y + height, z);
+        Vector3 v2 = camera.project(x + width, y, z);
+        Vector3 v3 = camera.project(x + width, y + height, z);
 
         textureBatch.add(texture, color,
                 v0, v1, v2,
                 v2, v3, v1);
+        incZ();
     }
 
     @Override
@@ -266,30 +276,33 @@ public final class GlGraphics implements Graphics, Disposable {
             float y2 = (float) (height * Math.sin(theta + inc));
 
             triangleBatch.add(color,
-                    camera.project(x, y, 0),
-                    camera.project(x + x1, y + y1, 0),
-                    camera.project(x + x2, y + y2, 0));
+                    camera.project(x, y, z),
+                    camera.project(x + x1, y + y1, z),
+                    camera.project(x + x2, y + y2, z));
         }
+        incZ();
     }
 
     @Override
     public void fillRect(float x, float y, float width, float height) {
         triangleBatch.add(color,
-                camera.project(x, y, 0),
-                camera.project(x, y + height, 0),
-                camera.project(x + width, y, 0)
+                camera.project(x, y, z),
+                camera.project(x, y + height, z),
+                camera.project(x + width, y, z)
         );
         triangleBatch.add(color,
-                camera.project(x + width, y + height, 0),
-                camera.project(x + width, y, 0),
-                camera.project(x, y + height, 0)
+                camera.project(x + width, y + height, z),
+                camera.project(x + width, y, z),
+                camera.project(x, y + height, z)
         );
+        incZ();
     }
 
     public void draw() {
         triangleBatch.flush();
         lineBatch.flush();
         textureBatch.flush();
+        z = -.9f;
     }
 
     @Override
@@ -299,5 +312,9 @@ public final class GlGraphics implements Graphics, Disposable {
         glDeleteBuffers(vertexVbo);
         glDeleteBuffers(colorVbo);
         glDeleteVertexArrays(vao);
+    }
+
+    private void incZ() {
+        z += 1e-7;
     }
 }

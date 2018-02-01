@@ -39,8 +39,8 @@ public final class Matrix4 {
     }
 
     public static Matrix4 createOrtho(float left, float right, float bottom, float top) {
-        float f = 0;
-        float n = Integer.MAX_VALUE;
+        float f = -1;
+        float n = 1;
 
         Matrix4 matrix = new Matrix4();
 
