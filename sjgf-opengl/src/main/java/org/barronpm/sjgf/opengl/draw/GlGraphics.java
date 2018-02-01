@@ -125,7 +125,7 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawArc(float x, float y, float width, float height, float start, float end) {
-        drawArc(x, y, width, height, start, end, 16);
+        drawArc(x, y, width, height, start, end, 50);
     }
 
     @Override
@@ -148,7 +148,7 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawEllipse(float x, float y, float width, float height) {
-        drawEllipse(x, y, width, height, 32);
+        drawEllipse(x, y, width, height, 50);
     }
 
     @Override
@@ -248,7 +248,7 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void fillEllipse(float x, float y, float width, float height) {
-        fillEllipse(x, y, width, height, 32);
+        fillEllipse(x, y, width, height, 50);
     }
 
     @Override
