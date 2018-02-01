@@ -36,6 +36,9 @@ public interface Graphics {
     void drawString(String string, float x, float y);
     void drawRect(float x, float y, float width, float height);
     void drawTexture(Texture texture, float x, float y);
+    void drawTexture(Texture texture, Color color, float x, float y);
+    void drawTexture(Texture texture, float x, float y, float width, float height);
+    void drawTexture(Texture texture, Color color, float x, float y, float width, float height);
     void fillEllipse(float x, float y, float width, float height);
     void fillEllipse(float x, float y, float width, float height, int segments);
     void fillRect(float x, float y, float width, float height);

@@ -226,12 +226,27 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawTexture(Texture texture, float x, float y) {
-        Vector3 v0 = camera.project(x, y, 0);
-        Vector3 v1 = camera.project(x, y + texture.getHeight(), 0);
-        Vector3 v2 = camera.project(x + texture.getWidth(), y, 0);
-        Vector3 v3 = camera.project(x+ texture.getWidth(), y + texture.getHeight(), 0);
+        drawTexture(texture, Color.WHITE, x, y, texture.getWidth(), texture.getHeight());
+    }
 
-        textureBatch.add(texture, Color.WHITE,
+    @Override
+    public void drawTexture(Texture texture, Color color, float x, float y) {
+        drawTexture(texture, color, x, y, texture.getWidth(), texture.getHeight());
+    }
+
+    @Override
+    public void drawTexture(Texture texture, float x, float y, float width, float height) {
+        drawTexture(texture, Color.WHITE, x, y, width, height);
+    }
+
+    @Override
+    public void drawTexture(Texture texture, Color color, float x, float y, float width, float height) {
+        Vector3 v0 = camera.project(x, y, 0);
+        Vector3 v1 = camera.project(x, y + height, 0);
+        Vector3 v2 = camera.project(x + width, y, 0);
+        Vector3 v3 = camera.project(x + width, y + height, 0);
+
+        textureBatch.add(texture, color,
                 v0, v1, v2,
                 v2, v3, v1);
     }
