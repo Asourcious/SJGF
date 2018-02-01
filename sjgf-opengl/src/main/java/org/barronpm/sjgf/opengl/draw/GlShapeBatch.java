@@ -18,15 +18,13 @@ package org.barronpm.sjgf.opengl.draw;
 
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.math.Vector3;
-import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glEnableVertexAttribArray;
-import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 class GlShapeBatch {
@@ -72,8 +70,8 @@ class GlShapeBatch {
     }
 
     void flush() {
-        FloatBuffer vertices = BufferUtils.createFloatBuffer(numShapes * numVertices * 3);
-        FloatBuffer colors = BufferUtils.createFloatBuffer(numShapes * numVertices * 4);
+        FloatBuffer vertices = MemoryUtil.memAllocFloat(numShapes * numVertices * 3);
+        FloatBuffer colors = MemoryUtil.memAllocFloat(numShapes * numVertices * 4);
 
         float[] tmp = new float[numShapes * numVertices * 3];
         System.arraycopy(vertexArray, 0, tmp, 0, numShapes * numVertices * 3);
@@ -91,6 +89,9 @@ class GlShapeBatch {
         glBindBuffer(GL_ARRAY_BUFFER, colorVbo);
         glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        MemoryUtil.memFree(vertices);
+        MemoryUtil.memFree(colors);
 
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);

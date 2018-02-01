@@ -19,7 +19,7 @@ package org.barronpm.sjgf.opengl.draw;
 import org.barronpm.sjgf.draw.Color;
 import org.barronpm.sjgf.draw.Texture;
 import org.barronpm.sjgf.math.Vector3;
-import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
@@ -98,9 +98,9 @@ class GlTextureBatch {
     }
 
     void flush() {
-        FloatBuffer vertices = BufferUtils.createFloatBuffer(numTextures * 6 * 3);
-        FloatBuffer coords = BufferUtils.createFloatBuffer(numTextures * 6 * 2);
-        FloatBuffer colors = BufferUtils.createFloatBuffer(numTextures * 6 * 4);
+        FloatBuffer vertices = MemoryUtil.memAllocFloat(numTextures * 6 * 3);
+        FloatBuffer coords = MemoryUtil.memAllocFloat(numTextures * 6 * 2);
+        FloatBuffer colors = MemoryUtil.memAllocFloat(numTextures * 6 * 4);
 
         float[] tmp = new float[numTextures * 6 * 3];
         System.arraycopy(vertexArray, 0, tmp, 0, numTextures * 6 * 3);
@@ -124,6 +124,10 @@ class GlTextureBatch {
         glBindBuffer(GL_ARRAY_BUFFER, colorVbo);
         glBufferData(GL_ARRAY_BUFFER, colors, GL_STATIC_DRAW);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+        MemoryUtil.memFree(vertices);
+        MemoryUtil.memFree(coords);
+        MemoryUtil.memFree(colors);
 
         glBindVertexArray(vao);
         glEnableVertexAttribArray(0);
