@@ -17,7 +17,7 @@
 package org.barronpm.sjgf.input;
 
 import org.barronpm.sjgf.util.Args;
-import org.lwjgl.BufferUtils;
+import org.lwjgl.system.MemoryStack;
 
 import java.nio.DoubleBuffer;
 import java.util.Arrays;
@@ -29,20 +29,24 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public final class Mouse {
 
-    private static final DoubleBuffer tmp = BufferUtils.createDoubleBuffer(1);
-
     public float getX() {
-        tmp.clear();
-        glfwGetCursorPos(glfwGetCurrentContext(), tmp, null);
+        MemoryStack stack = MemoryStack.stackPush();
+        DoubleBuffer buffer = stack.mallocDouble(1);
+        glfwGetCursorPos(glfwGetCurrentContext(), buffer, null);
+        float x = (float) buffer.get();
+        stack.pop();
 
-        return (float) tmp.get();
+        return x;
     }
 
     public float getY() {
-        tmp.clear();
-        glfwGetCursorPos(glfwGetCurrentContext(), null, tmp);
+        MemoryStack stack = MemoryStack.stackPush();
+        DoubleBuffer buffer = stack.mallocDouble(1);
+        glfwGetCursorPos(glfwGetCurrentContext(), null, buffer);
+        float y = (float) buffer.get();
+        stack.pop();
 
-        return (float) tmp.get();
+        return y;
     }
 
     public static boolean isButtonPressed(Buttons button) {
