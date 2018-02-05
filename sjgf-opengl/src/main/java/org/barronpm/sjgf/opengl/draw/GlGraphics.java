@@ -38,7 +38,7 @@ import static org.lwjgl.opengl.GL30.*;
 
 public final class GlGraphics implements Graphics, Disposable {
 
-    private float z = -0.9f;
+    private float z = -1f;
 
     private Color color = Color.BLACK;
     private Font font = new Font(Font.MONOSPACED, Font.PLAIN, 16);
