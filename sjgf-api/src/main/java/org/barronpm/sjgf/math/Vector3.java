@@ -30,6 +30,10 @@ public final class Vector3 {
         set(x, y, z);
     }
 
+    public Vector3(Vector3 vector) {
+        this(vector.x, vector.y, vector.z);
+    }
+
     public float getX() {
         return x;
     }

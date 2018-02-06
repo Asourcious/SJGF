@@ -29,6 +29,10 @@ public final class Vector2 {
         set(x, y);
     }
 
+    public Vector2(Vector2 vector) {
+        this(vector.x, vector.y);
+    }
+
     public float getX() {
         return x;
     }
