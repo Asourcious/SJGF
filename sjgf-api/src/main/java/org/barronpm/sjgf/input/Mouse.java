@@ -20,6 +20,7 @@ import org.barronpm.sjgf.util.Args;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.DoubleBuffer;
+import java.nio.IntBuffer;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
@@ -42,8 +43,10 @@ public final class Mouse {
     public static float getY() {
         MemoryStack stack = MemoryStack.stackPush();
         DoubleBuffer buffer = stack.mallocDouble(1);
+        IntBuffer height = stack.mallocInt(1);
         glfwGetCursorPos(glfwGetCurrentContext(), null, buffer);
-        float y = (float) buffer.get();
+        glfwGetWindowSize(glfwGetCurrentContext(), null, height);
+        float y = (float) buffer.get() - height.get();
         stack.pop();
 
         return y;

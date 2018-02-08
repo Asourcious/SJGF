@@ -26,7 +26,9 @@ import org.lwjgl.glfw.GLFWCursorEnterCallback;
 import org.lwjgl.glfw.GLFWCursorPosCallback;
 import org.lwjgl.glfw.GLFWKeyCallback;
 import org.lwjgl.glfw.GLFWMonitorCallback;
+import org.lwjgl.system.MemoryStack;
 
+import java.nio.IntBuffer;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -87,6 +89,13 @@ public class EventDispatcher {
 
             @Override
             public void invoke(long windowHandle, double x, double y) {
+                MemoryStack stack = MemoryStack.stackPush();
+                IntBuffer height = stack.mallocInt(1);
+                glfwGetWindowSize(windowHandle, null, height);
+
+                y = height.get() - y;
+                stack.pop();
+
                 dispatchEvent(new MouseMoveEvent(window,
                         new Vector2(oldX, oldY),
                         new Vector2((float) x, (float) y)));
