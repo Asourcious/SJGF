@@ -14,36 +14,27 @@
  * limitations under the License.
  */
 
-package org.barronpm.sjgf;
+package org.barronpm.sjgf.events.input;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.barronpm.sjgf.GameWindow;
+import org.barronpm.sjgf.math.Vector2;
 
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+public final class MouseMoveEvent extends GenericMouseEvent {
 
-public final class Monitor {
+    private final Vector2 oldPosition;
+    private final Vector2 newPosition;
 
-    static final Map<Long, Monitor> monitors = new HashMap<>();
-
-    private final long handle;
-
-    Monitor(long handle) {
-        this.handle = handle;
+    public MouseMoveEvent(GameWindow window, Vector2 oldPosition, Vector2 newPosition) {
+        super(window);
+        this.oldPosition = oldPosition;
+        this.newPosition = newPosition;
     }
 
-    public static Monitor getByHandle(long handle) {
-        return monitors.get(handle);
+    public Vector2 getOldPosition() {
+        return new Vector2(oldPosition);
     }
 
-    public long getHandle() {
-        return handle;
-    }
-
-    public int getWidth() {
-        return glfwGetVideoMode(handle).width();
-    }
-
-    public int getHeight() {
-        return glfwGetVideoMode(handle).height();
+    public Vector2 getNewPosition() {
+        return new Vector2(newPosition);
     }
 }

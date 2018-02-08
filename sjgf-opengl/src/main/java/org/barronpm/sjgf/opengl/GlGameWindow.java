@@ -26,6 +26,8 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryStack;
 
 import java.nio.IntBuffer;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -41,6 +43,8 @@ public final class GlGameWindow implements GameWindow {
     private Monitor monitor;
     private boolean useVsync;
     private WindowState state;
+
+    private EventDispatcher eventDispatcher;
 
     public GlGameWindow() {
         if (!glfwInit())
@@ -63,6 +67,7 @@ public final class GlGameWindow implements GameWindow {
     @Override
     public void start() {
         glfwMakeContextCurrent(window);
+        eventDispatcher = new EventDispatcher(this, window);
         GL.createCapabilities();
         GlGraphics graphics = new GlGraphics(this);
 
@@ -95,6 +100,21 @@ public final class GlGameWindow implements GameWindow {
     @Override
     public void close() {
         glfwSetWindowShouldClose(window, true);
+    }
+
+    @Override
+    public void addListener(EventListener listener) {
+        eventDispatcher.addListener(listener);
+    }
+
+    @Override
+    public void removeListener(EventListener listener) {
+        eventDispatcher.removeListener(listener);
+    }
+
+    @Override
+    public Set<EventListener> getListeners() {
+        return new HashSet<>(eventDispatcher.getListeners());
     }
 
     @Override

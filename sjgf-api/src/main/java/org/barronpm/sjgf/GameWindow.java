@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 /**
  * A GameWindow represents an OS window and contains an instance of a {@link Game}.
@@ -70,6 +71,36 @@ public interface GameWindow {
 
         return gameWindow;
     }
+
+    /**
+     * Adds a provided listener to the active listeners.
+     *
+     * @param listener the listener to add
+     * @see #removeListener(EventListener)
+     * @see #getListeners()
+     * @since 1.0
+     */
+    void addListener(EventListener listener);
+
+    /**
+     * Removes a provided listener from the active listeners.
+     *
+     * @param listener the listener to remove
+     * @see #addListener(EventListener)
+     * @see #getListeners()
+     * @since 1.0
+     */
+    void removeListener(EventListener listener);
+
+    /**
+     * Returns an immutable set containing the active listeners.
+     *
+     * @return a set containing the active listeners.
+     * @see #addListener(EventListener)
+     * @see #removeListener(EventListener)
+     * @since 1.0
+     */
+    Set<EventListener> getListeners();
 
     /**
      * Returns the x coordinate of the upper-left corner of this window.

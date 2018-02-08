@@ -16,34 +16,8 @@
 
 package org.barronpm.sjgf;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.barronpm.sjgf.events.Event;
 
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
-
-public final class Monitor {
-
-    static final Map<Long, Monitor> monitors = new HashMap<>();
-
-    private final long handle;
-
-    Monitor(long handle) {
-        this.handle = handle;
-    }
-
-    public static Monitor getByHandle(long handle) {
-        return monitors.get(handle);
-    }
-
-    public long getHandle() {
-        return handle;
-    }
-
-    public int getWidth() {
-        return glfwGetVideoMode(handle).width();
-    }
-
-    public int getHeight() {
-        return glfwGetVideoMode(handle).height();
-    }
+public interface EventListener {
+    void onEvent(Event event);
 }

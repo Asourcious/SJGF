@@ -14,36 +14,26 @@
  * limitations under the License.
  */
 
-package org.barronpm.sjgf;
+package org.barronpm.sjgf.events;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.barronpm.sjgf.Game;
+import org.barronpm.sjgf.GameWindow;
 
-import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
+public abstract class Event {
 
-public final class Monitor {
+    private GameWindow window;
+    private Game game;
 
-    static final Map<Long, Monitor> monitors = new HashMap<>();
-
-    private final long handle;
-
-    Monitor(long handle) {
-        this.handle = handle;
+    public Event(GameWindow window) {
+        this.window = window;
+        this.game = window.getGame();
     }
 
-    public static Monitor getByHandle(long handle) {
-        return monitors.get(handle);
+    public GameWindow getWindow() {
+        return window;
     }
 
-    public long getHandle() {
-        return handle;
-    }
-
-    public int getWidth() {
-        return glfwGetVideoMode(handle).width();
-    }
-
-    public int getHeight() {
-        return glfwGetVideoMode(handle).height();
+    public Game getGame() {
+        return game;
     }
 }
