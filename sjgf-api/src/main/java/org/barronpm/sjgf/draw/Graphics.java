@@ -181,6 +181,7 @@ public interface Graphics {
      * @param width the width of the rectangle
      * @param height the height of the rectangle
      * @see #fillRect(float, float, float, float)
+     * @since 1.0
      */
     void drawRect(float x, float y, float width, float height);
 
