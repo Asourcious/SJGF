@@ -20,8 +20,13 @@ import org.barronpm.sjgf.Disposable;
 import org.lwjgl.openal.AL;
 import org.lwjgl.openal.ALC;
 import org.lwjgl.openal.ALCCapabilities;
+import org.lwjgl.system.MemoryUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.nio.ByteBuffer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
@@ -30,9 +35,15 @@ public class AudioPlayer implements Disposable {
 
     public static final Logger LOG = LoggerFactory.getLogger(AudioPlayer.class);
 
+    private static final ExecutorService threads = Executors.newCachedThreadPool(r -> {
+        Thread thread = new Thread(r);
+        thread.setDaemon(true);
+
+        return thread;
+    });
+
     private final long device;
     private final long context;
-
 
     private int source;
     private int buffer;
@@ -56,9 +67,66 @@ public class AudioPlayer implements Disposable {
         alSourcePlay(this.source);
     }
 
+    public void play(StreamedAudioSource audioSource) {
+        threads.submit(new BackgroundSourceLoader(audioSource));
+    }
+
     @Override
     public void dispose() {
+        threads.shutdown();
         alcDestroyContext(context);
         alcCloseDevice(device);
+    }
+
+    private class BackgroundSourceLoader implements Runnable {
+
+        private StreamedAudioSource audioSource;
+
+        private BackgroundSourceLoader(StreamedAudioSource audioSource) {
+            this.audioSource = audioSource;
+        }
+
+        @Override
+        public void run() {
+            int[] bufferPool = new int[2];
+            alGenBuffers(bufferPool);
+
+            int source = alGenSources();
+
+            ByteBuffer buffer;
+            for (int buf : bufferPool) {
+                buffer = readToBuffer(audioSource, source);
+                bindBuffer(audioSource, buffer, source, buf);
+                alSourcePlay(source);
+            }
+
+            while (!audioSource.isDone()) {
+                buffer = readToBuffer(audioSource, source);
+
+                int buf;
+                for (buf = 0; buf == 0; buf = alSourceUnqueueBuffers(source)) {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ignored) { }
+                }
+
+                bindBuffer(audioSource, buffer, source, buf);
+            }
+        }
+
+        private ByteBuffer readToBuffer(StreamedAudioSource audioSource, int source) {
+            byte[] ary = audioSource.read();
+            ByteBuffer buf = MemoryUtil.memAlloc(ary.length);
+            buf.put(ary);
+            buf.flip();
+
+            return buf;
+        }
+
+        private void bindBuffer(StreamedAudioSource audioSource, ByteBuffer buffer, int source, int bufferHandle) {
+            alBufferData(bufferHandle, audioSource.format, buffer, audioSource.frequency);
+            alSourceQueueBuffers(source, bufferHandle);
+            MemoryUtil.memFree(buffer);
+        }
     }
 }
