@@ -163,7 +163,7 @@ public final class GlGraphics implements Graphics, Disposable {
 
     @Override
     public void drawEllipse(float x, float y, float width, float height, int segments) {
-        drawArc(x, y, width, height, 0, (float) (Math.PI * 2), segments);
+        drawArc(x - width / 2, y - height / 2, width, height, 0, (float) (Math.PI * 2), segments);
     }
 
     @Override
