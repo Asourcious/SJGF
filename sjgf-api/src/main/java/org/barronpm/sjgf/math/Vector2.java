@@ -84,6 +84,23 @@ public final class Vector2 {
         return x * other.x + y * other.y;
     }
 
+    public void normalize() {
+        if (len2() != 1) {
+            float len = len();
+            x /= len;
+            y /= len;
+        }
+    }
+
+    public void transform(float x, float y) {
+        this.x += x;
+        this.y += y;
+    }
+
+    public void transform(Vector2 vec) {
+        transform(vec.x, vec.y);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

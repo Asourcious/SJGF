@@ -116,6 +116,25 @@ public final class Vector3 {
         return x * other.x + y * other.y + z * other.z;
     }
 
+    public void normalize() {
+        if (len2() != 1) {
+            float len = len();
+            x /= len;
+            y /= len;
+            z /= len;
+        }
+    }
+
+    public void transform(float x, float y, float z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+    }
+
+    public void transform(Vector3 vec) {
+        transform(vec.x, vec.y, vec.z);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
