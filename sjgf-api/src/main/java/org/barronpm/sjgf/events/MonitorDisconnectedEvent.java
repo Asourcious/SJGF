@@ -19,6 +19,15 @@ package org.barronpm.sjgf.events;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.Monitor;
 
+/**
+ * This event is fired when a monitor is disconnected from the computer.
+ *
+ * @author Patrick Barron
+ * @see Event
+ * @see GenericMonitorEvent
+ * @see MonitorConnectedEvent
+ * @since 1.0
+ */
 public class MonitorDisconnectedEvent extends GenericMonitorEvent {
 
     public MonitorDisconnectedEvent(GameWindow window, Monitor monitor) {

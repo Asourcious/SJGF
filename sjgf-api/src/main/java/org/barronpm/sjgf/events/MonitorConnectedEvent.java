@@ -19,6 +19,15 @@ package org.barronpm.sjgf.events;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.Monitor;
 
+/**
+ * This event is fired when a monitor is connected to the computer.
+ *
+ * @author Patrick Barron
+ * @see Event
+ * @see GenericMonitorEvent
+ * @see MonitorDisconnectedEvent
+ * @since 1.0
+ */
 public final class MonitorConnectedEvent extends GenericMonitorEvent {
 
     public MonitorConnectedEvent(GameWindow window, Monitor monitor) {

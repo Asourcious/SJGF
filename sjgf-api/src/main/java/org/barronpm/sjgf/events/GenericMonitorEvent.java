@@ -19,6 +19,15 @@ package org.barronpm.sjgf.events;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.Monitor;
 
+/**
+ * Superclass for all monitor-related events.
+ *
+ * @author Patrick Barron
+ * @see Event
+ * @see MonitorConnectedEvent
+ * @see MonitorDisconnectedEvent
+ * @since 1.0
+ */
 public abstract class GenericMonitorEvent extends Event {
 
     private Monitor monitor;
