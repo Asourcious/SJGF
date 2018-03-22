@@ -19,6 +19,12 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.math.Vector2;
 
+/**
+ * This event fires when the mouse moves.
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public final class MouseMoveEvent extends GenericMouseEvent {
 
     private final Vector2 oldPosition;
@@ -30,10 +36,20 @@ public final class MouseMoveEvent extends GenericMouseEvent {
         this.newPosition = newPosition;
     }
 
+    /**
+     * Returns the previous position of the mouse as a {@link Vector2}
+     *
+     * @return the previous position of the mouse.
+     */
     public Vector2 getOldPosition() {
         return new Vector2(oldPosition);
     }
 
+    /**
+     * Returns the current position of the mouse as a {@link Vector2}
+     *
+     * @return the current position of the mouse.
+     */
     public Vector2 getNewPosition() {
         return new Vector2(newPosition);
     }

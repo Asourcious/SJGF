@@ -20,6 +20,13 @@ import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.events.Event;
 import org.barronpm.sjgf.input.Keys;
 
+/**
+ * Superclass for all keyboard related events.
+ *
+ * @author Patrick Barron
+ * @see org.barronpm.sjgf.events.Event
+ * @since 1.0
+ */
 public abstract class GenericKeyEvent extends Event {
 
     private final Keys key;
@@ -29,6 +36,11 @@ public abstract class GenericKeyEvent extends Event {
         this.key = key;
     }
 
+    /**
+     * Returns the key associated with this event.
+     *
+     * @return the key associated with this event
+     */
     public Keys getKey() {
         return key;
     }

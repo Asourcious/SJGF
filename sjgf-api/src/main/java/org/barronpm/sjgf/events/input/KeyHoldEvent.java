@@ -19,6 +19,16 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.input.Keys;
 
+/**
+ * This event fires when a key is held down.
+ * The time a key has to be pressed before this event is fired
+ * varies from system to system.
+ *
+ * @author Patrick Barron
+ * @see org.barronpm.sjgf.events.Event
+ * @see GenericKeyEvent
+ * @since 1.0
+ */
 public final class KeyHoldEvent extends GenericKeyEvent {
 
     public KeyHoldEvent(GameWindow window, Keys key) {

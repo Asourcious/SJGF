@@ -19,6 +19,13 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.events.Event;
 
+/**
+ * Superclass for all mouse-related events.
+ *
+ * @author Patrick Barron
+ * @see org.barronpm.sjgf.events.Event
+ * @since 1.0
+ */
 public abstract class GenericMouseEvent extends Event {
 
     public GenericMouseEvent(GameWindow window) {

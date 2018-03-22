@@ -19,6 +19,14 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.input.Keys;
 
+/**
+ * This event is fired when a key is released.
+ *
+ * @author Patrick Barron
+ * @see org.barronpm.sjgf.events.Event
+ * @see GenericKeyEvent
+ * @since 1.0
+ */
 public final class KeyReleaseEvent extends GenericKeyEvent {
 
     public KeyReleaseEvent(GameWindow window, Keys key) {

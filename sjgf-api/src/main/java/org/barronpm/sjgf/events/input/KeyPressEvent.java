@@ -19,6 +19,14 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.input.Keys;
 
+/**
+ * This event fires when a key is pressed.
+ *
+ * @author Patrick Barron
+ * @see org.barronpm.sjgf.events.Event
+ * @see GenericKeyEvent
+ * @since 1.0
+ */
 public final class KeyPressEvent extends GenericKeyEvent {
 
     public KeyPressEvent(GameWindow window, Keys key) {

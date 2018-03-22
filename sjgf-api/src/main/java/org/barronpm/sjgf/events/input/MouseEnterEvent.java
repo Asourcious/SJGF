@@ -18,6 +18,13 @@ package org.barronpm.sjgf.events.input;
 
 import org.barronpm.sjgf.GameWindow;
 
+/**
+ * This event is fired when the mouse enters the window.
+ *
+ * @author Patrick Barron
+ * @see MouseLeaveEvent
+ * @since 1.0
+ */
 public final class MouseEnterEvent extends GenericMouseEvent {
 
     public MouseEnterEvent(GameWindow window) {

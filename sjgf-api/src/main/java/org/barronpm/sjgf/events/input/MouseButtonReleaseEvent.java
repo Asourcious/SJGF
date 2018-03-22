@@ -19,6 +19,13 @@ package org.barronpm.sjgf.events.input;
 import org.barronpm.sjgf.GameWindow;
 import org.barronpm.sjgf.input.Mouse;
 
+/**
+ * This event is fired when a mouse button is released.
+ *
+ * @author Patrick Barron
+ * @see MouseButtonPressEvent
+ * @since 1.0
+ */
 public final class MouseButtonReleaseEvent extends GenericMouseEvent {
 
     private Mouse.Buttons button;
@@ -28,6 +35,11 @@ public final class MouseButtonReleaseEvent extends GenericMouseEvent {
         this.button = button;
     }
 
+    /**
+     * Returns the button associated with this event.
+     *
+     * @return the released button
+     */
     public Mouse.Buttons getButton() {
         return button;
     }

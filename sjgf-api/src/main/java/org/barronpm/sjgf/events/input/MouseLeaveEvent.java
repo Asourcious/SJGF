@@ -18,6 +18,13 @@ package org.barronpm.sjgf.events.input;
 
 import org.barronpm.sjgf.GameWindow;
 
+/**
+ * This event fires when the mouse leaves the window.
+ *
+ * @author Patrick Barron
+ * @see MouseEnterEvent
+ * @since 1.0
+ */
 public final class MouseLeaveEvent extends GenericMouseEvent {
     public MouseLeaveEvent(GameWindow window) {
         super(window);
