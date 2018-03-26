@@ -18,7 +18,24 @@ package org.barronpm.sjgf.draw;
 
 import org.barronpm.sjgf.Disposable;
 
+/**
+ * A texture is an image that can be drawn onto the window.
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public interface Texture extends Disposable {
+    /**
+     * Returns the width of the texture
+     *
+     * @return the width of the texture
+     */
     int getWidth();
+
+    /**
+     * Returns the height of the texture
+     *
+     * @return the height of the texture
+     */
     int getHeight();
 }

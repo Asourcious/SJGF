@@ -19,15 +19,38 @@ package org.barronpm.sjgf.draw;
 import org.barronpm.sjgf.math.Matrix4;
 import org.barronpm.sjgf.math.Vector3;
 
+/**
+ * An orthographic camera projects 3D coordinates onto a 2D plane.
+ *
+ * @author Patrick Barron
+ * @see Camera
+ * @since 1.0
+ */
 public final class OrthographicCamera implements Camera {
 
     private Matrix4 projection;
     private Matrix4 inverseProjection;
 
+    /**
+     * Creates a new orthographic camera with the provided bounds
+     *
+     * @param left the leftmost coordinate
+     * @param right the rightmost coordinate
+     * @param bottom the bottommost coordinate
+     * @param top the topmost coordinate
+     */
     public OrthographicCamera(float left, float right, float bottom, float top) {
         setViewport(left, right, bottom, top);
     }
 
+    /**
+     * Sets the view port of the matrix
+     *
+     * @param left the leftmost coordinate
+     * @param right the rightmost coordinate
+     * @param bottom the bottommost coordinate
+     * @param top the topmost coordinate
+     */
     public void setViewport(float left, float right, float bottom, float top) {
         projection = Matrix4.createOrtho(left, right, bottom, top);
         inverseProjection = projection.invert();
