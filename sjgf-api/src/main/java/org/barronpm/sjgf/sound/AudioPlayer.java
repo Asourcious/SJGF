@@ -31,6 +31,14 @@ import java.util.concurrent.Executors;
 import static org.lwjgl.openal.AL10.*;
 import static org.lwjgl.openal.ALC10.*;
 
+/**
+ * Manages the loading and playing of audio files.
+ *
+ * @author Patrick Barron
+ * @see AudioSource
+ * @see StreamedAudioSource
+ * @since 1.0
+ */
 public class AudioPlayer implements Disposable {
 
     public static final Logger LOG = LoggerFactory.getLogger(AudioPlayer.class);
@@ -48,6 +56,14 @@ public class AudioPlayer implements Disposable {
     private int source;
     private int buffer;
 
+    /**
+     * Creates a new AudioPlayer
+     *
+     * Generally, only one AudioPlayer instance should be used, as the objects are expensive and
+     * support multiple audio sources simultaneously.
+     *
+     * @since 1.0
+     */
     public AudioPlayer() {
         String defaultDeviceName = alcGetString(0, ALC_DEFAULT_DEVICE_SPECIFIER);
         device = alcOpenDevice(defaultDeviceName);
@@ -61,12 +77,23 @@ public class AudioPlayer implements Disposable {
         source = alGenSources();
     }
 
+    /**
+     * Plays an audio source.
+     *
+     * @param source the source to play
+     * @since 1.0
+     */
     public void play(AudioSource source) {
         alBufferData(buffer, source.getFormat(), source.getBuffer(), source.getFrequency());
         alSourcei(this.source, AL_BUFFER, buffer);
         alSourcePlay(this.source);
     }
 
+    /**
+     * Plays a StreamedAudioSource
+     *
+     * @param audioSource the source to play
+     */
     public void play(StreamedAudioSource audioSource) {
         threads.submit(new BackgroundSourceLoader(audioSource));
     }
