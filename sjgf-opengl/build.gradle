@@ -18,7 +18,7 @@ import org.gradle.internal.os.OperatingSystem
 
 javaModule.name = "org.barronpm.sjgf.opengl"
 
-ext.lwjglVersion = "3.1.5"
+ext.lwjglVersion = "3.1.6"
 
 switch (OperatingSystem.current() ) {
     case OperatingSystem.WINDOWS:
