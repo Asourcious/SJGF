@@ -46,6 +46,4 @@ javadoc {
     options.author()
     options.encoding = "UTF-8"
     options.addStringOption("-html5")
-
-    exclude("module-info.java")
 }
