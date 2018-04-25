@@ -93,6 +93,7 @@ public class AudioPlayer implements Disposable {
      * Plays a StreamedAudioSource
      *
      * @param audioSource the source to play
+     * @since 1.0
      */
     public void play(StreamedAudioSource audioSource) {
         threads.submit(new BackgroundSourceLoader(audioSource));
