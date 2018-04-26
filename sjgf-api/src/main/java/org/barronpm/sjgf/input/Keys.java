@@ -885,9 +885,6 @@ public enum Keys {
      * @since 1.0
      */
     public static Keys getKeyByCode(int code) {
-        // This is a more robust solution than the one in Controller.Buttons, but it is very verbose
-        // and should likewise be considered for a replacement by a better solution
-
         if (codes.isEmpty()) {
             for (Keys key : values()) {
                 codes.put(key.code, key);
