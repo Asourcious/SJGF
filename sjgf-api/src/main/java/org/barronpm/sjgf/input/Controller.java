@@ -20,9 +20,7 @@ import org.barronpm.sjgf.util.Args;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWGamepadState;
 
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -418,6 +416,8 @@ public final class Controller {
 
         private final int id;
 
+        private static final Map<Integer, Buttons> codes = new HashMap<>();
+
         Buttons(int id) {
             this.id = id;
         }
@@ -432,17 +432,20 @@ public final class Controller {
         }
 
         /**
-         * Returns the button that has the provided id.
+         * Returns the button that has the provided id, or <code>null</code>,
+         * if no such button exists.
          *
          * @param id the id to
          * @return the button associated with the id.
          */
         public static Buttons getButtonById(int id) {
-            // Currently this method relies on the ordinal of the enum being equal to its id. This may be broken
-            // in future releases of GLFW. Look into a more robust solution without sacrificing speed.
+            if (codes.isEmpty()) {
+                for (Buttons button : values()) {
+                    codes.put(button.id, button);
+                }
+            }
 
-            Args.inRange(0, values().length, id, "ID");
-            return values()[id];
+            return codes.get(id);
         }
     }
 }

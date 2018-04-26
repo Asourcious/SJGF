@@ -21,9 +21,7 @@ import org.lwjgl.system.MemoryStack;
 
 import java.nio.DoubleBuffer;
 import java.nio.IntBuffer;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -127,6 +125,8 @@ public final class Mouse {
 
         private final int id;
 
+        private static final Map<Integer, Buttons> codes = new HashMap<>();
+
         Buttons(int id) {
             this.id = id;
         }
@@ -143,17 +143,21 @@ public final class Mouse {
         }
 
         /**
-         * Returns the button associated with the following id.
+         * Returns the button associated with the following id, or <code>null</code>,
+         * if no such button exists.
          *
          * @param id the id
          * @return the associated button.
          * @since 1.0
          */
         public static Buttons getButtonById(int id) {
-            // Similar problems as Controller.Buttons.getButtonById
+            if (codes.isEmpty()) {
+                for (Buttons button : values()) {
+                    codes.put(button.id, button);
+                }
+            }
 
-            Args.inRange(0, values().length, id, "ID");
-            return values()[id];
+            return codes.get(id);
         }
     }
 }
