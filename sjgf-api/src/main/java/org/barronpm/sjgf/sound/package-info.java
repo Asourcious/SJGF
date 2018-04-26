@@ -15,7 +15,7 @@
  */
 
 /**
- * Includes classes related to audio.
+ * Includes classes related to loading and playing audio.
  *
  * @author Patrick Barron
  * @since 1.0

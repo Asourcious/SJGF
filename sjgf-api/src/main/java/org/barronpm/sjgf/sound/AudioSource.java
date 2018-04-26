@@ -26,6 +26,18 @@ import java.nio.ByteBuffer;
 import static org.lwjgl.openal.AL10.AL_FORMAT_MONO16;
 import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 
+/**
+ * An audio source to be played by an {@link AudioPlayer}.
+ *
+ * When an AudioSource instance is created, the audio file is read entirely into memory.
+ * Consider this for shorter audio files that will be played frequently, such as
+ * sound effects.
+ *
+ * @author Patrick Barron
+ * @see AudioPlayer
+ * @see StreamedAudioSource
+ * @since 1.0
+ */
 public class AudioSource {
 
     private ByteBuffer data;
@@ -41,6 +53,15 @@ public class AudioSource {
         this.format = format;
     }
 
+    /**
+     * Loads an AudioSource from a file.
+     *
+     * @param file the file to load
+     * @return the created AudioSource
+     * @throws IOException if the file is unable to be read.
+     * @throws UnsupportedAudioFileException if the type of the provided file is not supported.
+     * @since 1.0
+     */
     public static AudioSource load(File file) throws IOException, UnsupportedAudioFileException {
         AudioInputStream stream = AudioSystem.getAudioInputStream(
                 AudioFormat.Encoding.PCM_SIGNED, AudioSystem.getAudioInputStream(file));

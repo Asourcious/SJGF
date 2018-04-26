@@ -29,6 +29,19 @@ import java.io.IOException;
 import static org.lwjgl.openal.AL10.AL_FORMAT_MONO16;
 import static org.lwjgl.openal.AL10.AL_FORMAT_STEREO16;
 
+/**
+ * An audio source to be played by an {@link AudioPlayer}.
+ *
+ * StreamedAudioSources, unlike an instance of {@link AudioSource}, are
+ * only partially in memory at any given time, and are instead read
+ * in pieces as the data is needed. Consider this over a normal AudioSource for
+ * longer files that won't be played as frequently.
+ *
+ * @author Patrick Barron
+ * @see AudioPlayer
+ * @see AudioSource
+ * @since 1.0
+ */
 public class StreamedAudioSource {
 
     public static final Logger LOG = LoggerFactory.getLogger(StreamedAudioSource.class);
@@ -62,6 +75,15 @@ public class StreamedAudioSource {
         }
     }
 
+    /**
+     * Creates a StreamedAudioSource from a file.
+     *
+     * @param file the file to read.
+     * @return the created StreamedAudioSource
+     * @throws IOException if the file is unable to be read.
+     * @throws UnsupportedAudioFileException if the type of the provided file is not supported.
+     * @since 1.0
+     */
     public static StreamedAudioSource load(File file) throws IOException, UnsupportedAudioFileException {
         AudioInputStream stream = AudioSystem.getAudioInputStream(AudioFormat.Encoding.PCM_SIGNED,
                 AudioSystem.getAudioInputStream(file));
