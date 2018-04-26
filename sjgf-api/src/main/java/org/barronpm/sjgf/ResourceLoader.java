@@ -18,6 +18,21 @@ package org.barronpm.sjgf;
 
 import java.io.File;
 
+/**
+ * A ResourceLoader loads resources from files
+ *
+ * @author Patrick Barron
+ * @param <T> the type of resource that is loaded.
+ * @since 1.0
+ */
 public interface ResourceLoader<T> {
+
+    /**
+     * Loads a resource from the provided file.
+     *
+     * @param file the file to load from
+     * @return the loaded resource.
+     * @since 1.0
+     */
     T load(File file);
 }
