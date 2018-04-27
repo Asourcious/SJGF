@@ -22,6 +22,14 @@ import org.barronpm.sjgf.events.MonitorConnectedEvent;
 import org.barronpm.sjgf.events.MonitorDisconnectedEvent;
 import org.barronpm.sjgf.events.input.*;
 
+/**
+ * An abstract implementation of {@link EventListener} which divides {@link Event Events}
+ * into subclasses.
+ *
+ * @author Patrick Barron
+ * @see EventListener
+ * @since 1.0
+ */
 public abstract class ListenerAdapter implements EventListener {
 
     @Override
@@ -53,29 +61,100 @@ public abstract class ListenerAdapter implements EventListener {
             onMouseMove((MouseMoveEvent) event);
     }
 
+    /**
+     * Fires whenever there is a key-related event.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onGenericKeyEvent(GenericKeyEvent event) {}
 
+    /**
+     * Fires whenever there is a monitor-related event.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onGenericMonitorEvent(GenericMonitorEvent event) {}
 
+    /**
+     * Fires whenever there is a mouse-related event.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onGenericMouseEvent(GenericMouseEvent event) {}
 
 
-
+    /**
+     * Fires whenever a key is held.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onKeyHold(KeyHoldEvent event) {}
 
+    /**
+     * Fires whenever a key is pressed
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onKeyPress(KeyPressEvent event) {}
 
+    /**
+     * Fires whenever a key is released.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onKeyRelease(KeyReleaseEvent event) {}
 
+    /**
+     * Fires whenever a monitor is connected to the system.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMonitorConnected(MonitorConnectedEvent event) {}
 
+    /**
+     * Fires whenever a monitor is disconnected from the system.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMonitorDisconnected(MonitorDisconnectedEvent event) {}
 
+    /**
+     * Fires whenever a mouse button is pressed.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMouseButtonPress(MouseButtonPressEvent event) {}
 
+    /**
+     * Fires whenever a mouse button is released.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMouseButtonRelease(MouseButtonReleaseEvent event) {}
 
+    /**
+     * Fires whenever the mouse enters the window.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMouseEnter(MouseEnterEvent event) {}
 
+    /**
+     * Fires whenever the mouse moves.
+     *
+     * @param event the event
+     * @since 1.0
+     */
     public void onMouseMove(MouseMoveEvent event) {}
 }
