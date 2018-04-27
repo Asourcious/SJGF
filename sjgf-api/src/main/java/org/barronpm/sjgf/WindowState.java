@@ -16,9 +16,39 @@
 
 package org.barronpm.sjgf;
 
+/**
+ * Represents the state of the game window.
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public enum WindowState {
+
+    /**
+     * The minimized state.
+     *
+     * @since 1.0
+     */
     MINIMIZED,
+
+    /**
+     * The restored (normal) state.
+     *
+     * @since 1.0
+     */
     RESTORED,
+
+    /**
+     * The maximized state.
+     *
+     * @since 1.0
+     */
     MAXIMIZED,
+
+    /**
+     * The fullscreen state.
+     *
+     * @since 1.0
+     */
     FULLSCREEN
 }
