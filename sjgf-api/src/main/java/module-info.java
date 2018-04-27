@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+/**
+ * SJGF is a simple Java API for creating 2D graphics.
+ *
+ * @uses org.barronpm.sjgf.GameWindow an implementation of a GameWindow
+ */
 module org.barronpm.sjgf {
     requires transitive org.slf4j;
     requires transitive java.desktop;
