@@ -16,6 +16,12 @@
 
 package org.barronpm.sjgf.exceptions;
 
+/**
+ * Base SJGF Exception
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public class SJGFException extends RuntimeException {
     public SJGFException() {
         super();

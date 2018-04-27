@@ -37,6 +37,12 @@ public abstract class GenericMonitorEvent extends Event {
         this.monitor = monitor;
     }
 
+    /**
+     * Returns the monitor associated with this event.
+     *
+     * @return the monitor associated with this event.
+     * @since 1.0
+     */
     public Monitor getMonitor() {
         return monitor;
     }

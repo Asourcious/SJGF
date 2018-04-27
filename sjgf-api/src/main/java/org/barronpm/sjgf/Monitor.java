@@ -21,6 +21,12 @@ import java.util.Map;
 
 import static org.lwjgl.glfw.GLFW.glfwGetVideoMode;
 
+/**
+ * Represents a monitor.
+ *
+ * @author Patrick Barron
+ * @since 1.0
+ */
 public final class Monitor {
 
     static final Map<Long, Monitor> monitors = new HashMap<>();
@@ -31,18 +37,42 @@ public final class Monitor {
         this.handle = handle;
     }
 
+    /**
+     * Returns the monitor associated with the provided handle, or <code>null</code>
+     *
+     * @param handle the handle
+     * @return the associated monitor
+     * @since 1.0
+     */
     public static Monitor getByHandle(long handle) {
         return monitors.get(handle);
     }
 
+    /**
+     * Returns the handle of this monitor.
+     *
+     * @return the handle of this monitor.
+     */
     public long getHandle() {
         return handle;
     }
 
+    /**
+     * Returns the width of this monitor.
+     *
+     * @return the width of this monitor.
+     * @since 1.0
+     */
     public int getWidth() {
         return glfwGetVideoMode(handle).width();
     }
 
+    /**
+     * Returns the height of this monitor.
+     *
+     * @return the height of this monitor.
+     * @since 1.0
+     */
     public int getHeight() {
         return glfwGetVideoMode(handle).height();
     }

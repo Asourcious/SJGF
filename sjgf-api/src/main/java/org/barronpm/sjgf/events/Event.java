@@ -39,10 +39,21 @@ public abstract class Event {
         this.game = window.getGame();
     }
 
+    /**
+     * Returns the GameWindow associated with this event.
+     *
+     * @return the GameWindow associated with this event.
+     * @since 1.0
+     */
     public GameWindow getWindow() {
         return window;
     }
 
+    /**
+     * Returns the Game associated with this event.
+     *
+     * @return the Game associated with this event.
+     */
     public Game getGame() {
         return game;
     }
