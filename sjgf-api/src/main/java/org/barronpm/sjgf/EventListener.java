@@ -18,6 +18,19 @@ package org.barronpm.sjgf;
 
 import org.barronpm.sjgf.events.Event;
 
+/**
+ * EventListeners are used to receive {@link Event Events}.
+ *
+ * @author Patrick Barron
+ * @see ListenerAdapter
+ * @since 1.0
+ */
 public interface EventListener {
+
+    /**
+     * Handles any {@link Event}
+     *
+     * @param event the event.
+     */
     void onEvent(Event event);
 }
